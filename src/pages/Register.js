@@ -34,7 +34,7 @@ export default function Register() {
   return (
     <>
       {/* <Alert variant="primary">This is a alert—check it out!</Alert> */}
-      <Container fluid className=" background-container p-2 ">
+      <Container fluid className=" background-container pt-2 ">
         <Card className="register mx-auto my-3 border pt-3 border-dark" style={{ maxWidth: "30rem", fontSize: "14px" }}>
           <Card.Body className="p-0">
             <Card.Title className="text-center fw-bold">Register</Card.Title>
