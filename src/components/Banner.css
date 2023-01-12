@@ -1,0 +1,15 @@
+.banner {
+    color: white;
+    font-family: 'montserrat-regular';
+    max-width: 600px;
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.banner h2 {
+    /* font-size: 3rem; */
+    text-align: center;
+}
+
+.banner ul {
+    font-size: 14px;
+}
