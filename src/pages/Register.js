@@ -66,13 +66,9 @@ export default function Register() {
         const isEmailInUSe = await checkEmail();
         if (isEmailInUSe) {
           Swal.fire({
-            // title: "Duplicate Email Found",
             icon: "warning",
             text: "Email is already in use. Please use a different one",
-
             width: "25rem",
-            // buttonsStyling: false,
-            // allowOutsideClick: true,
           });
 
           return;

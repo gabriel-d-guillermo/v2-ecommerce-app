@@ -1,6 +1,7 @@
 import { useState, useMemo, useEffect, useCallback, useRef } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import ProductCard from "../components/ProductCard";
+import Swal from "sweetalert2";
 import "../components/ProductCard.css";
 
 export default function Product() {
@@ -23,6 +24,12 @@ export default function Product() {
         if (error.name === "AbortError") {
           console.warn("Request was cancelled");
         } else {
+          Swal.fire({
+            icon: "error",
+            text: "Something went wrong!!",
+            color: "#f27474",
+            width: "25rem",
+          });
           console.error(error);
           setLoading(false);
         }

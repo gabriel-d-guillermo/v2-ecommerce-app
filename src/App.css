@@ -39,7 +39,7 @@ root {}
 }
 
 .background-container {
-    background-image: url('https://www.metabo.com/t3/fileadmin/metabo/us/000_home/02_slider-pix_1280x512/M-Brush_Hero_Banner2.jpg');
+    background-image: url('./asset/images/backgroundImg.jpg');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
