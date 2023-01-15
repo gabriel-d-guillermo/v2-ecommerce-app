@@ -1,5 +1,5 @@
-import { useState, useMemo, useEffect, useCallback, useRef } from "react";
-import { Container, Row, Col } from "react-bootstrap";
+import { useState, useEffect } from "react";
+import { Container, Row, Button } from "react-bootstrap";
 import ProductCard from "../components/ProductCard";
 import Swal from "sweetalert2";
 import "../components/ProductCard.css";
@@ -7,18 +7,21 @@ import "../components/ProductCard.css";
 export default function Product() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [filterItems, setFilterItems] = useState([]);
+  const [viewCount, setViewCount] = useState(5);
 
+  //get all products
   useEffect(() => {
     const controller = new AbortController();
     setLoading(true);
     async function getProducts() {
       try {
-        const product = await fetch(`${process.env.REACT_APP_API_URL}/products/viewProducts`, {
+        const getProducts = await fetch(`${process.env.REACT_APP_API_URL}/products/viewProducts`, {
           signal: controller.signal,
         });
-        const productData = await product.json();
-        console.log(productData);
-        setProducts(productData);
+        const fetchedData = await getProducts.json();
+        setProducts(fetchedData);
+        setFilterItems(fetchedData);
         setLoading(false);
       } catch (error) {
         if (error.name === "AbortError") {
@@ -26,7 +29,7 @@ export default function Product() {
         } else {
           Swal.fire({
             icon: "error",
-            text: "Something went wrong!!",
+            text: "Oop!, Something went wrong",
             color: "#f27474",
             width: "25rem",
           });
@@ -38,25 +41,59 @@ export default function Product() {
     getProducts();
     return () => controller.abort();
   }, []);
-  // if (loading) {
-  //   return (
-  //     <div className="spinner-border" style={{ width: "3rem", height: "3rem" }} role="status">
-  //       <span className="visually-hidden">Loading...</span>
-  //     </div>
-  //   );
-  // }
+
+  //search/filter products
+  const handleFilter = str => {
+    let strTrim = str.trim();
+    if (strTrim.length > 3) {
+      const lowerStr = str.toLowerCase();
+      const result = products.filter(product => {
+        return product.productName.toLowerCase().match(lowerStr) || product.description.toLowerCase().match(lowerStr);
+      });
+      if (result.length > 0) {
+        setFilterItems([...result]);
+      }
+      return;
+    }
+    setFilterItems(products);
+  };
+
   return (
-    <Container fluid="md" className="product ">
+    <Container fluid="md" className="product">
       {loading ? (
-        <div className="spinner-border" style={{ width: "5rem", height: "5rem" }} role="status">
-          <span className="visually-hidden">Loading...</span>
+        <div className="loading">
+          <div className="spinner-border" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </div>
+          <div>Loading . . . </div>
         </div>
       ) : (
-        <Row className="">
-          {products.map((product, index) => {
-            return <ProductCard key={index} prop={product} />;
-          })}
-        </Row>
+        <>
+          <div className="" style={{ height: "4rem" }}>
+            <input
+              type="search"
+              className="form-control mx-auto w-50"
+              onChange={e => {
+                handleFilter(e.target.value);
+              }}
+              placeholder="Search . . ."
+              style={{ minWidth: "20rem" }}
+            ></input>
+          </div>
+          <Row className="">
+            {filterItems.slice(0, viewCount).map((product, index) => {
+              return <ProductCard key={index} prop={product} />;
+            })}
+          </Row>
+          {/* show view more button if the length of products is greater than the viewCount Value */}
+          {filterItems.length > viewCount && (
+            <div className="text-center my-5">
+              <Button variant="outline-dark" onClick={() => setViewCount(viewCount + 10)}>
+                View More <i className="fa-solid fa-arrow-down"></i> {}
+              </Button>
+            </div>
+          )}
+        </>
       )}
     </Container>
   );
