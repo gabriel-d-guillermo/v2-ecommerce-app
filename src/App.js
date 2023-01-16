@@ -1,4 +1,3 @@
-import { Container } from "react-bootstrap";
 import { BrowserRouter as Router } from "react-router-dom";
 import { Routes, Route } from "react-router-dom";
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -11,6 +10,7 @@ import NavBar from "./components/NavBar";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Product from "./pages/Product";
+import ProductId from "./pages/Product_Id";
 import Register from "./pages/Register";
 function App() {
   // fetch(`${process.env.REACT_APP_API_URL}/users/details`,{
@@ -22,6 +22,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/products" element={<Product />} />
+        <Route path="/product/:id" element={<ProductId />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
       </Routes>

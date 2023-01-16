@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
+
 import { Container, Row, Button } from "react-bootstrap";
-import ProductCard from "../components/ProductCard";
 import Swal from "sweetalert2";
-import "../components/ProductCard.css";
+
+import ProductCard from "../components/ProductCard";
 
 export default function Product() {
   const [products, setProducts] = useState([]);

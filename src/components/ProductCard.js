@@ -1,10 +1,11 @@
-import { Card, Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import { Card } from "react-bootstrap";
 
 export default function ProductCard({ prop }) {
   const { _id, imageUrl, price, quantity, productName, description } = prop;
 
   return (
-    <Card className="" style={{}}>
+    <Card as={Link} to={`../product/${_id}`} style={{ textDecoration: "none", color: "inherit" }}>
       <div className="img-container">
         <Card.Img variant="top" src={imageUrl} className="" />
       </div>
@@ -19,8 +20,6 @@ export default function ProductCard({ prop }) {
           })}
         </Card.Text>
         <Card.Text className=" product-quantity">Product Available: {quantity}</Card.Text>
-
-        {/* <div className="view-btn p-2 text-center w-100">View Product</div> */}
       </Card.Body>
     </Card>
   );

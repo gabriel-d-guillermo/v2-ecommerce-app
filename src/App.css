@@ -44,8 +44,6 @@
 }
 .spinner-border{
     margin-right: .6rem;
-    /* width: 3rem !important;  */
-    /* height: 3rem !important; */
 }
 .background {
     background-color: black;
@@ -62,18 +60,22 @@
 
 }
 
-.register {
+.register, .login {
     font-family: 'montserrat-semi-bold';
 }
 
-.register label {
+.register label ,.login label{
     font-size: 12px;
 }
 
+.view-product{
+    min-height: 80vh;
+
+}
 .product {
-    min-height: 90vh;
+    min-height: 80vh;
     padding: 3rem 0;
-    font-family: 'montserrat-semi-bold';
+    font-family: 'montserrat-semi-bold';    
 }
 
 .product .card {

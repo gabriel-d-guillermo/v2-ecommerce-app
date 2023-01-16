@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
 
 //bootstrap
-
 import { Container, Nav, Navbar } from "react-bootstrap";
 import "./NavBar.css";
+
 export default function NavBar() {
   return (
     <Navbar variant="dark" expand="md" style={{ backgroundColor: "#0a0a0d" }}>

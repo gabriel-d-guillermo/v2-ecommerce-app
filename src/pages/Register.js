@@ -1,7 +1,8 @@
-import { useState, useEffect, useCallback, useMemo, useRef } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import { Form, Button, Card, Container } from "react-bootstrap";
 import Swal from "sweetalert2";
+
 export default function Register() {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
@@ -14,6 +15,7 @@ export default function Register() {
   const passwordRef = useRef();
   const confirmPasswordRef = useRef();
 
+  //reset all input
   const handleReset = () => {
     firstNameRef.current.value = "";
     lastNameRef.current.value = "";
@@ -22,6 +24,7 @@ export default function Register() {
     confirmPasswordRef.current.value = "";
   };
 
+  //validate form
   const handleForm = e => {
     e.preventDefault();
     let error = {};
@@ -41,7 +44,8 @@ export default function Register() {
     }
   };
 
-  const checkEmail = async () => {
+  //check if the email is already in use
+  const checkEmail = async email => {
     try {
       const userEmail = await fetch(`${process.env.REACT_APP_API_URL}/users/checkEmail`, {
         method: "POST",
@@ -49,7 +53,7 @@ export default function Register() {
           "Content-type": "application/json",
         },
         body: JSON.stringify({
-          email: emailRef.current.value,
+          email: email,
         }),
       });
 
@@ -60,46 +64,50 @@ export default function Register() {
     }
   };
 
+  //register when isFormvalid ==true
   useEffect(() => {
     const register = async () => {
       try {
-        const isEmailInUSe = await checkEmail();
+        //input values
+        const firstName = firstNameRef.current?.value.trim();
+        const lastName = lastNameRef.current?.value.trim();
+        const email = emailRef.current?.value.trim();
+        const password = passwordRef.current?.value.trim();
+
+        //chech if email is already in use
+        const isEmailInUSe = await checkEmail(email);
+
         if (isEmailInUSe) {
-          Swal.fire({
-            icon: "warning",
-            text: "Email is already in use. Please use a different one",
-            width: "25rem",
-          });
-
-          return;
+          return alertPopUP("duplicate");
         }
-        // if (isFormValid) {
-        //   const data = await fetch(`${process.env.REACT_APP_API_URL}/users/register`, {
-        //     method: "POST",
-        //     headers: {
-        //       "Content-type": "application/json",
-        //     },
-        //     body: JSON.stringify({
-        //       username: "",
-        //       email: "",
-        //       password: "",
-        //     }),
-        //   });
+        //if email is not in use
+        //proceed to register
+        const postData = await fetch(`${process.env.REACT_APP_API_URL}/users/register`, {
+          method: "POST",
+          headers: {
+            "Content-type": "application/json",
+          },
+          body: JSON.stringify({
+            firstName: firstName,
+            lastName: lastName,
+            email: email,
+            password: password,
+          }),
+        });
 
-        //   const res = await data.json();
-        //   console.log(res);
-        //   handleReset();
-        //   Swal.fire({
-        //     position: "center",
-        //     icon: "success",
-        //     title: "register success!!",
-        //     showConfirmButton: false,
-        //     timer: 2000,
-        //     toast: true,
-        //   });
-        // }
+        const res = await postData.json();
+
+        //check if the reponse is success
+        if (res) {
+          handleReset();
+          await alertPopUP("success");
+          return navigate("/login");
+        }
+
+        return alertPopUP("error");
       } catch (error) {
-        console.log(error);
+        console.error(error);
+        return alertPopUP("error");
       }
     };
 
@@ -108,14 +116,14 @@ export default function Register() {
     return () => {
       setIsFormValid(false);
     };
-  }, [isFormValid]);
+  }, [isFormValid, navigate]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
   return (
     <>
-      {/* <Alert variant="primary">This is a alert—check it out!</Alert> */}
       <Container fluid className=" background-container pt-2 ">
         <Card className="register mx-auto mt-3 border pt-3 border-dark" style={{ maxWidth: "30rem", fontSize: "14px" }}>
           <Card.Body className="p-0">
@@ -195,4 +203,31 @@ export default function Register() {
       </Container>
     </>
   );
+}
+
+function alertPopUP(status) {
+  if (status === "success") {
+    return Swal.fire({
+      position: "center",
+      icon: "success",
+      title: "register success!!",
+      showConfirmButton: false,
+      timer: 2000,
+      toast: true,
+    });
+  }
+
+  if (status === "duplicate") {
+    return Swal.fire({
+      icon: "warning",
+      text: "Email is already in use. Please use a different one",
+      width: "25rem",
+    });
+  }
+  if (status === "error")
+    Swal.fire({
+      icon: "error",
+      text: "Something went wrong!!",
+      width: "25rem",
+    });
 }
