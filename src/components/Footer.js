@@ -3,7 +3,7 @@ export default function Footer() {
   const currentYear = date.getFullYear();
 
   return (
-    <footer className="py-4 w-100 " style={{ backgroundColor: "#0a0a0d" }}>
+    <footer className="py-4 w-100 ">
       {/* <h3 align="center " className="text-light">
         Contact Us!
       </h3> */}

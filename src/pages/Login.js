@@ -1,10 +1,16 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useContext } from "react";
 import { Container, Card, Button, Form } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
+import UserContext from "../UserContext";
+
+import Swal from "sweetalert2";
 
 export default function Login() {
+  const { user, setUser } = useContext(UserContext);
   const navigate = useNavigate();
   const [isFormValid, setIsFormValid] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+
   const [isError, setIsError] = useState({});
   const emailRef = useRef();
   const passwordRef = useRef();
@@ -12,7 +18,6 @@ export default function Login() {
   const handleLogin = e => {
     e.preventDefault();
     let error = {};
-
     if (emailRef.current?.value.trim() === "") error.email = "email is required";
     if (passwordRef.current?.value.trim() === "") error.password = "email is required";
     setIsError(error);
@@ -22,11 +27,79 @@ export default function Login() {
   };
 
   useEffect(() => {
-    const loginUser = async () => {};
-    if (isFormValid) loginUser();
-  }, [isFormValid]);
+    const loginUser = async () => {
+      try {
+        const login = await fetch(`${process.env.REACT_APP_API_URL}/users/login`, {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify({
+            email: emailRef.current?.value.trim(),
+            password: passwordRef.current?.value.trim(),
+          }),
+        });
+        const res = await login.json();
+        console.log(res);
+        if (res.access && res.access !== "undefined") {
+          localStorage.setItem("token", res.access);
+          const data = await retrieveUserDetails(res.access);
+          if (data) {
+            setUser({
+              id: data._id,
+              isAdmin: data.isAdmin,
+            });
 
-  const [showPassword, setShowPassword] = useState(false);
+            Swal.fire({
+              position: "top",
+              icon: "success",
+              text: "Log in successful!!",
+              showConfirmButton: false,
+              timer: 2000,
+              toast: true,
+            });
+            navigate("/");
+          } else {
+            Swal.fire({
+              icon: "error",
+              text: "Something went wrong!!",
+              width: "25rem",
+            });
+          }
+        } else {
+          Swal.fire({
+            icon: "warning",
+            text: "Email/Password is incorrect",
+            width: "25rem",
+          });
+        }
+      } catch (error) {}
+    };
+    if (isFormValid) loginUser();
+
+    return () => setIsFormValid(false);
+  }, [isFormValid, setUser, navigate]);
+
+  const retrieveUserDetails = async token => {
+    try {
+      const fetchUserDetails = await fetch(`${process.env.REACT_APP_API_URL}/users/details`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const data = await fetchUserDetails.json();
+      if (data) {
+        return data;
+      } else {
+        return false;
+      }
+    } catch (error) {
+      return false;
+    }
+  };
+
+  // if (user.id !== null && user.isAdmin !== null) return <Navigate to="/" />;
+
   return (
     <Container fluid className=" background-container p-2">
       <Card className="login mx-auto mt-5 border pt-3 border-dark" style={{ maxWidth: "25rem", fontSize: "14px" }}>

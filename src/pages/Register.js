@@ -1,10 +1,12 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Form, Button, Card, Container } from "react-bootstrap";
+
 import Swal from "sweetalert2";
 
 export default function Register() {
   const navigate = useNavigate();
+
   const [showPassword, setShowPassword] = useState(false);
   const [formError, setFormError] = useState({});
   const [isFormValid, setIsFormValid] = useState(false);
@@ -208,7 +210,7 @@ export default function Register() {
 function alertPopUP(status) {
   if (status === "success") {
     return Swal.fire({
-      position: "center",
+      position: "top",
       icon: "success",
       title: "register success!!",
       showConfirmButton: false,

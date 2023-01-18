@@ -1,11 +1,12 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 
 import { Container, Row, Button } from "react-bootstrap";
 import Swal from "sweetalert2";
-
+import UserContext from "../UserContext";
 import ProductCard from "../components/ProductCard";
 
 export default function Product() {
+  const { user } = useContext(UserContext);
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [filterItems, setFilterItems] = useState([]);
@@ -68,12 +69,12 @@ export default function Product() {
           </div>
           <div>Loading . . . </div>
         </div>
-      ) : (
+      ) : products.length > 0 ? (
         <>
           <div className="" style={{ height: "4rem" }}>
             <input
               type="search"
-              className="form-control mx-auto w-50"
+              className="form-control mx-auto w-50 search"
               onChange={e => {
                 handleFilter(e.target.value);
               }}
@@ -89,12 +90,14 @@ export default function Product() {
           {/* show view more button if the length of products is greater than the viewCount Value */}
           {filterItems.length > viewCount && (
             <div className="text-center my-5">
-              <Button variant="outline-dark" onClick={() => setViewCount(viewCount + 10)}>
+              <Button variant="outline-light" onClick={() => setViewCount(viewCount + 10)}>
                 View More <i className="fa-solid fa-arrow-down"></i> {}
               </Button>
             </div>
           )}
         </>
+      ) : (
+        <h2 className="mt-5 text-center">No Data Available</h2>
       )}
     </Container>
   );

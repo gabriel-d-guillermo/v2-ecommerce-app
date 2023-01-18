@@ -1,3 +1,21 @@
-.navbar {
+nav {
     font-family: 'montserrat-semi-bold';
+    background-color: var(--bg-dark);
+    /* position:fixed; */
+    /* top:0; */
+    
+}
+.spacer{
+    height: 56px;
+    transition: height 0.3s ease-in-out;
+}
+
+.show-spacer {
+    height: 216px;
+}  
+
+@media (min-width: 767px){
+    .show-spacer {
+        height: 56px;
+    }  
 }
