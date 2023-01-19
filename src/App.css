@@ -1,17 +1,20 @@
-
-
+:root{
+    --bg-dark:#000000;
+    --bg-img:url('./asset/images/backgroundImg.jpg');
+    
+}
 * {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
 }
-:root{
-    --bg-dark:#000000;
+html{
+    scroll-behavior: smooth;
 }
 #root {
     min-width: 374px;
     background-color: #faf7f7;
-    background-image: url('./asset/images/backgroundImg.jpg');
+    background-image: var(--bg-img);
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
@@ -20,6 +23,26 @@
     overflow-y:auto ;
     position: relative;
     /* min-height: 100vh; */
+}
+@media (min-width:768px){
+    ::-webkit-scrollbar {
+        width: 8px;
+      }
+    
+    ::-webkit-scrollbar-track {
+        background-color: #161515; 
+      }
+       
+     
+      ::-webkit-scrollbar-thumb {
+        background: #e9e5e5; 
+      }
+      
+    
+      ::-webkit-scrollbar-thumb:hover {
+        background: #555; 
+      }
+    
 }
 
 @font-face {
@@ -31,7 +54,6 @@
     font-family: 'montserrat-semi-bold';
     src: url('./asset/Montserrat/Montserrat-SemiBold.ttf');
 }
-
 
 .error {
     font-size: 10px;
@@ -62,7 +84,7 @@
 }
 
 .background-container {
-    min-height: calc(100vh  - 104px);   
+    min-height: calc(100vh  - 56px);   
     padding-bottom: 3rem;
 
 }
@@ -77,176 +99,8 @@ footer{
     font-size: 12px;
 }
 
-.view-product{
-    min-height: 80vh;
-
-}
 
 
-.product {
-    min-height: calc(100vh - 56px - 104px);   
-    padding: 3rem 0;
-    font-family: 'montserrat-semi-bold';   
-
-
-}
-
-.product .card {
-    width: calc((100% / 5) - .6rem);
-    margin: .3rem;
-    height: 20rem;
-    padding: 1rem 0;
-    border-radius: 5px;
-    transition: border 0.3s ease, box-shadow 0.5s ease-in-out;
-    /* box-shadow: 2px 2px 8px #c5c2c2; */
-}
-
-.product .card:hover {
-
-    border: 1px solid #3a3a3b;
-    box-shadow: 2px 5px 8px #565657;
-    cursor: pointer;
-}
-
-.product .img-container {
-    height: 7.5rem;
-    padding: .3rem;
-    /* object-fit: cover; */
-}
-
-.product .card-img-top {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-}
-
-.product .card-body {
-    /* border: 1px solid black; */
-    padding: 1rem;
-}
-
-.product .product-name {
-    font-size: .9rem;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    display: -webkit-box !important;
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
-    white-space: normal;
-}
-
-.product .product-description {
-    color: rgb(109, 107, 107);
-    font-size: .8rem;
-    height: 60px;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    display: -webkit-box !important;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    white-space: normal;
-}
-
-.product .product-price {
-    font-size: .9rem;
-}
-
-.product .product-quantity {
-    font-size: .8rem;
-}
-
-.product .view-btn {
-    background-color: white;
-    color: #0a0a0d;
-    border: 1px solid #0a0a0d;
-    transition: background-color 0.2s ease;
-}
-
-
-
-.product .card:hover .view-btn {
-    transform: scale(1.01);
-    background-color: #0a0a0d;
-    color: white;
-}
-
-.product .search{
-    background-color: rgba(0, 0, 0, 0) ;
-    border:1px solid white;
-    color: white ;
-}
-
-.product .search::placeholder{
-    color:white ;
-}
-@media (max-width: 1200px) {
-    .product .card {
-        width: calc((100% / 4) - .6rem);
-        margin: .3rem;
-    }
-}
-
-@media (max-width: 992px) {
-    .product .card {
-        width: calc((100% / 3) - .6rem);
-        margin: .3rem;
-    }
-
-    .product .row {
-        padding: 0 1rem;
-    }
-
-}
-
-@media (max-width: 767px) {
-
-    .product .card {
-        width: calc((100% / 3) - .6rem);
-        margin: .3rem;
-        height: 16.5rem;
-    }
-
-    .product .row {
-        padding: 0 .5rem;
-    }
-
-    .product .img-container {
-        height: 5.5rem;
-        padding: .3rem;
-        /* object-fit: cover; */
-    }
-
-    .product .product-name {
-        font-size: .7rem;
-
-    }
-
-    .product .product-description {
-        font-size: .6rem;
-
-    }
-
-    .product .product-price {
-        font-size: .7rem;
-    }
-
-    .product .product-quantity {
-        font-size: .6rem;
-    }
-}
-
-@media (max-width: 576px) {
-
-    .product .card {
-        width: calc((100% / 2) - .6rem);
-    }
-
-    .product .row {
-        max-width: 450px;
-        margin: 0 auto;
-        padding: 0;
-    }
-}
 
 .swal2-icon {
     margin: 1.2em auto !important;

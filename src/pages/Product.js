@@ -5,6 +5,8 @@ import Swal from "sweetalert2";
 import UserContext from "../UserContext";
 import ProductCard from "../components/ProductCard";
 
+import "./Product.css";
+
 export default function Product() {
   const { user } = useContext(UserContext);
   const [products, setProducts] = useState([]);
@@ -97,7 +99,7 @@ export default function Product() {
           )}
         </>
       ) : (
-        <h2 className="mt-5 text-center">No Data Available</h2>
+        <h2 className="mt-5 text-center text-white">No Data Available</h2>
       )}
     </Container>
   );

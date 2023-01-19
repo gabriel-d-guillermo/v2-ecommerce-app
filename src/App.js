@@ -15,7 +15,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Logout from "./pages/Logout";
 import Product from "./pages/Product";
-import ProductId from "./pages/Product_Id";
+import ViewProduct from "./pages/ViewProduct";
 import Register from "./pages/Register";
 function App() {
   const [user, setUser] = useState({
@@ -56,7 +56,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/products" element={<Product />} />
-          <Route path="/product/:id" element={<ProductId />} />
+          <Route path="/product/:id" element={<ViewProduct />} />
           <Route path="/register" element={user.id !== null && user.isAdmin !== null ? <Home /> : <Register />} />
           <Route path="/login" element={user.id !== null && user.isAdmin !== null ? <Home /> : <Login />} />
           <Route path="/logout" element={<Logout />} />

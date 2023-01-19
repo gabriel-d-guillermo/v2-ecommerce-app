@@ -1,0 +1,33 @@
+.view-product{
+    min-height: 90vh;
+    padding-top: 1px;
+    font-family: 'montserrat-regular';
+}
+.view-product .img-container {
+    height: 15rem;
+    padding: .3rem;
+    /* object-fit: cover; */
+}
+
+.view-product .card{
+    width: 50rem;
+    margin:3rem auto;
+}
+.view-product .card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.view-product .img-wrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 30rem; 
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+.view-product .details-wrapper{
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
