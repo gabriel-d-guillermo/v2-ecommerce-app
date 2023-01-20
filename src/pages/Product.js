@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, useRef } from "react";
 
 import { Container, Row, Button } from "react-bootstrap";
 import Swal from "sweetalert2";
@@ -9,6 +9,7 @@ import "./Product.css";
 
 export default function Product() {
   const { user } = useContext(UserContext);
+  const topRef = useRef(null);
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [filterItems, setFilterItems] = useState([]);
@@ -16,6 +17,8 @@ export default function Product() {
 
   //get all products
   useEffect(() => {
+    topRef.current.scrollIntoView({ behavior: "smooth", block: "end" });
+
     const controller = new AbortController();
     setLoading(true);
     async function getProducts() {
@@ -63,7 +66,7 @@ export default function Product() {
   };
 
   return (
-    <Container fluid="md" className="product">
+    <Container ref={topRef} fluid="md" className="product">
       {loading ? (
         <div className="loading">
           <div className="spinner-border" role="status">

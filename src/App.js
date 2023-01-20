@@ -26,7 +26,7 @@ function App() {
   const unsetUser = () => {
     localStorage.removeItem("token");
   };
-
+  console.log(localStorage.getItem("token"));
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API_URL}/users/details`, {
       headers: {

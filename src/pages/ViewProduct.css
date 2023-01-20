@@ -1,7 +1,8 @@
 .view-product{
     min-height: 90vh;
     padding-top: 1px;
-    font-family: 'montserrat-regular';
+    font-family: 'montserrat-semi-bold';
+    color: rgb(73, 73, 73);
 }
 .view-product .img-container {
     height: 15rem;
@@ -10,7 +11,7 @@
 }
 
 .view-product .card{
-    width: 50rem;
+    max-width: 50rem;
     margin:3rem auto;
 }
 .view-product .card-img {
@@ -30,4 +31,13 @@
 .view-product .details-wrapper{
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
+    padding:0 2rem;
+}
+
+.view-product .description{
+    min-height: 5rem;
+}
+.view-product p {
+    font-size: .9rem;
+    color: rgb(73, 73, 73);
 }

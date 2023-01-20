@@ -31,6 +31,9 @@ export default function NavBar() {
                   <Nav.Link as={Link} to="/cart">
                     Cart
                   </Nav.Link>
+                  <Nav.Link as={Link} to="/account">
+                    Account
+                  </Nav.Link>
                   <Nav.Link as={Link} to="/logout">
                     Log Out
                   </Nav.Link>
