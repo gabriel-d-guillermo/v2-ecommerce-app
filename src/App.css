@@ -22,7 +22,7 @@ html{
     max-height: 100vh;  
     overflow-y:auto ;
     position: relative;
-    /* min-height: 100vh; */
+  
 }
 @media (min-width:768px){
     ::-webkit-scrollbar {
