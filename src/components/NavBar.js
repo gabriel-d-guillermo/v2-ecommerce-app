@@ -7,7 +7,8 @@ import { Container, Nav, Navbar } from "react-bootstrap";
 import "./NavBar.css";
 
 export default function NavBar() {
-  const { user } = useContext(UserContext);
+  const { user, cartCount } = useContext(UserContext);
+
   const [height, setHeight] = useState(false);
 
   return (
@@ -28,8 +29,9 @@ export default function NavBar() {
                   <Nav.Link as={Link} to="/products">
                     Products
                   </Nav.Link>
-                  <Nav.Link as={Link} to="/cart">
+                  <Nav.Link className="my-cart" as={Link} to="/cart">
                     Cart
+                    <div className="cart-count">{cartCount}</div>
                   </Nav.Link>
                   <Nav.Link as={Link} to="/account">
                     Account

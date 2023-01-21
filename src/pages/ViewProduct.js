@@ -8,7 +8,8 @@ import "./ViewProduct.css";
 export default function ViewProduct() {
   const topRef = useRef(null);
   const { id } = useParams();
-  const { user } = useContext(UserContext);
+  const { user, cartCount, setCartCount, getCart } = useContext(UserContext);
+
   const [productDetails, setProductDetails] = useState(null);
   const [currentQuantity, setCurrentQuantity] = useState(0);
   const [price, setPrice] = useState(0);
@@ -46,7 +47,17 @@ export default function ViewProduct() {
         }),
       });
       const post = await addToCart.json();
-      console.log(post);
+      if (post) {
+        getCart(user.id);
+        Swal.fire({
+          position: "top",
+          icon: "success",
+          title: "Product has been added to your cart",
+          showConfirmButton: false,
+          timer: 3000,
+          toast: true,
+        });
+      }
     } catch (error) {
       console.log(error);
     }

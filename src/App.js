@@ -1,7 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 import { Routes, Route } from "react-router-dom";
 import { UserProvider } from "./UserContext";
+import { CartProvider } from "./CartContext";
 
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -17,40 +18,65 @@ import Logout from "./pages/Logout";
 import Product from "./pages/Product";
 import ViewProduct from "./pages/ViewProduct";
 import Register from "./pages/Register";
+
 function App() {
   const [user, setUser] = useState({
     id: null,
     isAdmin: null,
   });
-
+  const [cartCount, setCartCount] = useState(0);
   const unsetUser = () => {
     localStorage.removeItem("token");
   };
-  console.log(localStorage.getItem("token"));
+
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_API_URL}/users/details`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    })
-      .then(res => res.json())
-      .then(data => {
+    const getUserDetails = async () => {
+      try {
+        const fetchData = await fetch(`${process.env.REACT_APP_API_URL}/users/details`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
+        const data = await fetchData.json();
         if (typeof data._id !== "undefined") {
           setUser({
             id: data._id,
             isAdmin: data.isAdmin,
           });
+          getCart(data._id);
         } else {
           setUser({
             id: null,
             isAdmin: null,
           });
         }
-      });
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getUserDetails();
   }, []);
+  console.log(user.id);
+  // useEffect(() => {
+  const getCart = async id => {
+    try {
+      const cart = await fetch(`${process.env.REACT_APP_API_URL}/cart/${id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      const data = await cart.json();
+      console.log("bobo");
+      setCartCount(data.length++);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  // if (user.id !== null) getCart(user.id);
+  // }, []);
 
   return (
-    <UserProvider value={{ user, setUser, unsetUser }}>
+    <UserProvider value={{ user, setUser, unsetUser, cartCount, setCartCount, getCart }}>
       <Router>
         <NavBar />
         <Routes>
