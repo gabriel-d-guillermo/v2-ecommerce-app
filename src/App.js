@@ -2,7 +2,7 @@ import { useState, useEffect, useMemo } from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 import { Routes, Route } from "react-router-dom";
 import { UserProvider } from "./UserContext";
-import { CartProvider } from "./CartContext";
+// import { CartProvider } from "./CartContext";
 
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -24,7 +24,9 @@ function App() {
     id: null,
     isAdmin: null,
   });
+  const [cart, setCart] = useState([]);
   const [cartCount, setCartCount] = useState(0);
+
   const unsetUser = () => {
     localStorage.removeItem("token");
   };
@@ -56,7 +58,7 @@ function App() {
     };
     getUserDetails();
   }, []);
-  console.log(user.id);
+
   // useEffect(() => {
   const getCart = async id => {
     try {
@@ -66,8 +68,7 @@ function App() {
         },
       });
       const data = await cart.json();
-      console.log("bobo");
-      setCartCount(data.length++);
+      setCart(data);
     } catch (error) {
       console.log(error);
     }
@@ -76,7 +77,7 @@ function App() {
   // }, []);
 
   return (
-    <UserProvider value={{ user, setUser, unsetUser, cartCount, setCartCount, getCart }}>
+    <UserProvider value={{ user, setUser, unsetUser, cart, getCart }}>
       <Router>
         <NavBar />
         <Routes>

@@ -7,20 +7,24 @@ import { Container, Nav, Navbar } from "react-bootstrap";
 import "./NavBar.css";
 
 export default function NavBar() {
-  const { user, cartCount } = useContext(UserContext);
-
+  const { user, cart } = useContext(UserContext);
+  const topRef = useRef();
   const [height, setHeight] = useState(false);
+
+  const scrollTop = () => {
+    topRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
 
   return (
     <>
-      <Navbar variant="dark" className=" fixed-top" expand="md">
+      <Navbar variant="dark" className="  fixed-top" expand="md">
         <Container fluid="lg" className="px-lg-0">
-          <Navbar.Brand as={Link} to="/" className="fw-bold">
+          <Navbar.Brand as={Link} to="/" className="fw-bold" onClick={scrollTop}>
             E-toOls
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" onClick={() => setHeight(!height)} />
           <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="ms-auto">
+            <Nav className="ms-auto" onClick={scrollTop}>
               {user.id !== null && user.isAdmin === false ? (
                 <>
                   <Nav.Link as={Link} to="/">
@@ -31,7 +35,7 @@ export default function NavBar() {
                   </Nav.Link>
                   <Nav.Link className="my-cart" as={Link} to="/cart">
                     Cart
-                    <div className="cart-count">{cartCount}</div>
+                    <div className="cart-count">{cart.length}</div>
                   </Nav.Link>
                   <Nav.Link as={Link} to="/account">
                     Account
@@ -60,7 +64,7 @@ export default function NavBar() {
           </Navbar.Collapse>
         </Container>
       </Navbar>
-      <div className={height ? "spacer show-spacer" : "spacer"}></div>
+      <div ref={topRef} className={height ? "spacer show-spacer" : "spacer"}></div>
     </>
   );
 }

@@ -17,8 +17,12 @@ export default function Product() {
 
   //get all products
   useEffect(() => {
-    topRef.current.scrollIntoView({ behavior: "smooth", block: "end" });
-
+    // topRef.current.scrollIntoView({ behavior: "smooth", inline: "start" });
+    // topRef.current.scrollBy({
+    //   top: -900,
+    //   left: 100,
+    //   behavior: "smooth",
+    // });
     const controller = new AbortController();
     setLoading(true);
     async function getProducts() {
