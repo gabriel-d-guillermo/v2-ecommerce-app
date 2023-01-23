@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo } from "react";
-import { BrowserRouter as Router } from "react-router-dom";
+// import { BrowserRouter as Router } from "react-router-dom";
 import { Routes, Route } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { UserProvider } from "./UserContext";
 // import { CartProvider } from "./CartContext";
 
@@ -25,11 +26,12 @@ function App() {
     isAdmin: null,
   });
   const [cart, setCart] = useState([]);
-  const [cartCount, setCartCount] = useState(0);
 
   const unsetUser = () => {
     localStorage.removeItem("token");
   };
+  let location = useLocation();
+  const currentPath = location.pathname;
 
   useEffect(() => {
     const getUserDetails = async () => {
@@ -59,7 +61,6 @@ function App() {
     getUserDetails();
   }, []);
 
-  // useEffect(() => {
   const getCart = async id => {
     try {
       const cart = await fetch(`${process.env.REACT_APP_API_URL}/cart/${id}`, {
@@ -73,25 +74,21 @@ function App() {
       console.log(error);
     }
   };
-  // if (user.id !== null) getCart(user.id);
-  // }, []);
 
   return (
     <UserProvider value={{ user, setUser, unsetUser, cart, getCart }}>
-      <Router>
-        <NavBar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/products" element={<Product />} />
-          <Route path="/product/:id" element={<ViewProduct />} />
-          <Route path="/register" element={user.id !== null && user.isAdmin !== null ? <Home /> : <Register />} />
-          <Route path="/login" element={user.id !== null && user.isAdmin !== null ? <Home /> : <Login />} />
-          <Route path="/logout" element={<Logout />} />
-          <Route path="/cart" element={<Cart />} />
-        </Routes>
+      <NavBar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/products" element={<Product />} />
+        <Route path="/product/:id" element={<ViewProduct />} />
+        <Route path="/register" element={user.id !== null && user.isAdmin !== null ? <Home /> : <Register />} />
+        <Route path="/login" element={user.id !== null && user.isAdmin !== null ? <Home /> : <Login />} />
+        <Route path="/logout" element={<Logout />} />
+        <Route path="/cart" element={<Cart />} />
+      </Routes>
 
-        <Footer />
-      </Router>
+      {currentPath !== "/cart" && <Footer />}
     </UserProvider>
   );
 }

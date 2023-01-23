@@ -42,8 +42,11 @@ export default function ViewProduct() {
         body: JSON.stringify({
           userId: user.id,
           productId: id,
+          productName: productDetails.productName,
           quantity: quantity,
+          price: price,
           subTotal: quantity * price,
+          imageUrl: productDetails.imageUrl,
         }),
       });
       const post = await addToCart.json();
