@@ -1,11 +1,11 @@
 import { useState, useContext, useEffect } from "react";
 import { Container } from "react-bootstrap";
-
 import UserContext from "../UserContext";
+import CartCard from "../components/CartCard";
 import "./Cart.css";
 
 export default function Cart() {
-  const { cart } = useContext(UserContext);
+  const { cart, user } = useContext(UserContext);
   const [product, setProduct] = useState({});
   const [price, setPrice] = useState(0);
   // console.log(cart);
@@ -30,7 +30,7 @@ export default function Cart() {
       <div className="cart-wrapper row mt-5">
         <div className="card-container border col p-0">
           {cart.map(items => {
-            return <CartCard key={items._id} data={items} />;
+            return <CartCard key={items._id} cartId={items._id} user={user.id} />;
           })}
         </div>
         <div className="order-container border col p-0">
@@ -38,21 +38,5 @@ export default function Cart() {
         </div>
       </div>
     </Container>
-  );
-}
-
-function CartCard({ data }) {
-  const { _id, productId, imageUrl, price, createdOn } = data;
-
-  console.log(productId);
-
-  return (
-    <div className="cart-card bg-white mb-3 border p-2 ">
-      <div className="img-container">
-        <img className="" src={data.imageUrl} />
-      </div>
-      {createdOn}
-      <p> {data.productName}</p>
-    </div>
   );
 }

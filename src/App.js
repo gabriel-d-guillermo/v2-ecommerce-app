@@ -47,7 +47,7 @@ function App() {
             id: data._id,
             isAdmin: data.isAdmin,
           });
-          getCart(data._id);
+          await getCart(data._id);
         } else {
           setUser({
             id: null,
