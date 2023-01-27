@@ -98,8 +98,6 @@ export default function Login() {
     }
   };
 
-  // if (user.id !== null && user.isAdmin !== null) return <Navigate to="/" />;
-
   return (
     <Container fluid className=" background-container p-2">
       <Card className="login mx-auto mt-5 border pt-3 border-dark" style={{ maxWidth: "25rem", fontSize: "14px" }}>

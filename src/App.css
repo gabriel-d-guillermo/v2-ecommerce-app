@@ -1,5 +1,5 @@
 :root{
-    --bg-dark:#000000;
+    --bg-dark:#131212;
     --bg-img:url('./asset/images/backgroundImg.jpg');
     
 }
@@ -22,8 +22,8 @@ html{
     max-height: 100vh;  
     overflow-y:auto ;
     position: relative;
-  
 }
+
 @media (min-width:768px){
     ::-webkit-scrollbar {
         width: 8px;
