@@ -1,19 +1,19 @@
-import { useState, useEffect, useContext, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 
 import { Container, Row, Button } from "react-bootstrap";
 import Swal from "sweetalert2";
-import UserContext from "../UserContext";
+// import UserContext from "../UserContext";
 import ProductCard from "../components/ProductCard";
 
 import "./Product.css";
 
 export default function Product() {
-  const { user } = useContext(UserContext);
+  // const { user } = useContext(UserContext);
   const topRef = useRef(null);
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [filterItems, setFilterItems] = useState([]);
-  const [viewCount, setViewCount] = useState(5);
+  const [viewCount, setViewCount] = useState(10);
 
   //get all products
   useEffect(() => {

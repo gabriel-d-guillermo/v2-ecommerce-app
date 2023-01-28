@@ -1,32 +1,20 @@
 import { useState, useEffect } from "react";
 import { Button } from "react-bootstrap";
 import "./CartCard.css";
-export default function CartCard({ cartId, user, addItem, removeItem }) {
+export default function CartCard({ cartId, user, addItem, removeItem, deleteCart, updateQuantity }) {
   const [product, setProduct] = useState({});
   const [quantity, setQuantity] = useState(0);
   const [price, setPrice] = useState(0);
   const [itemLeft, setItemLeft] = useState(0);
   const [inCart, setInCart] = useState(false);
 
-  const local = JSON.parse(localStorage.getItem("Orders"));
-  // console.log(local);
-  const find = () => {
-    if (local !== null) {
-      let res = local.find(item => {
-        return item.id === cartId;
-      });
-      if (res === undefined) {
-        setInCart(false);
-      } else {
-        setInCart(true);
-      }
-    }
-  };
+  const subTotal = price * quantity;
 
   //add item to localStorage Orders
   const handleItem = () => {
     const item = {
       id: cartId,
+      productId: product.productId,
       quantity: quantity,
       price: price,
     };
@@ -44,6 +32,7 @@ export default function CartCard({ cartId, user, addItem, removeItem }) {
     if (quantity > 1) {
       setQuantity(quantity - 1);
       updateCart(-1);
+      updateQuantity(cartId, -1);
     }
   };
 
@@ -51,12 +40,13 @@ export default function CartCard({ cartId, user, addItem, removeItem }) {
     if (itemLeft > quantity) {
       setQuantity(quantity + 1);
       updateCart(1);
+      updateQuantity(cartId, 1);
     }
   };
 
   const updateCart = num => {
     try {
-      fetch(`${process.env.REACT_APP_API_URL}/cart/${cartId}`, {
+      fetch(`${process.env.REACT_APP_API_URL}/cart/update/${cartId}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -73,6 +63,7 @@ export default function CartCard({ cartId, user, addItem, removeItem }) {
   };
 
   useEffect(() => {
+    const local = JSON.parse(localStorage.getItem("Orders"));
     const getProduct = async () => {
       try {
         const fetchdata = await fetch(`${process.env.REACT_APP_API_URL}/cart/${user.id}/${cartId}`, {
@@ -80,22 +71,29 @@ export default function CartCard({ cartId, user, addItem, removeItem }) {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         });
-
         const result = await fetchdata.json();
-
+        console.log(result);
         setProduct(result.data);
         setQuantity(result.data.quantity);
         setPrice(result.data.price);
-        // setSubtotal(result.data.subTotal);
         setItemLeft(result.productLeft);
+
+        if (local !== null) {
+          let res = local.find(item => {
+            return item.id === cartId;
+          });
+          if (res === undefined) {
+            setInCart(false);
+          } else {
+            setInCart(true);
+          }
+        }
       } catch (error) {
         console.log(error);
       }
     };
-
     getProduct();
-    find();
-  }, []);
+  }, [user.id, cartId]);
 
   return (
     <div className="cart-card ">
@@ -105,38 +103,46 @@ export default function CartCard({ cartId, user, addItem, removeItem }) {
         ) : (
           <input type="checkbox" className="check-box" onClick={handleItem} />
         )}
-        <h6 className="d-inline mx-auto"> {itemLeft}</h6>
-      </div>
-      <div className="cart-card-body">
-        <div className="img-container">
-          <img className="" src={product.imageUrl} />
-        </div>
 
-        <div className="product-details">
-          <p> {product.productName}</p>
-          <div className="product-summary">
+        <span className=" item-remain">Remaining items: ( {itemLeft} )</span>
+      </div>
+      <div className="cart-card-body ">
+        <div className="row m-0">
+          <div className="col-12 col-sm col-md-4 d-flex p-0 ">
+            <div className="img-container">
+              <img className="" src={product.imageUrl} />
+            </div>
+            <p className="p-2 "> {product.productName}</p>
+          </div>
+
+          <div className="col-12 col-sm col-md product-details px-0 d-flex align-items-center justify-content-center ">
             {price.toLocaleString("en-US", {
               style: "currency",
               currency: "PHP",
             })}
-            <div className="button-group border border-secondary">
-              <button size="sm" onClick={handleDecrement}>
+            <div className="button-group border border-secondary ">
+              <button size="sm" className="px-2" onClick={handleDecrement}>
                 -
               </button>
               <button size="sm" className="px-3  border-start border-end border-secondary">
                 {quantity}
               </button>
-              <button size="sm" onClick={handleIncrement}>
+              <button size="sm" className="px-2 " onClick={handleIncrement}>
                 +
               </button>
             </div>
-            <div>
-              <small>Sub Total: </small>₱{price * quantity}
+            <div className="d-inline ms-4">
+              {subTotal.toLocaleString("en-US", {
+                style: "currency",
+                currency: "PHP",
+              })}
             </div>
           </div>
-        </div>
-        <div className="action">
-          <Button variant="outline-dark">Delete Item</Button>
+          <div className="col-12 col-sm-12 col-md-2 action py-2">
+            <Button variant="outline-dark" className={inCart ? "disabled" : ""} onClick={() => deleteCart(cartId)}>
+              Delete Item
+            </Button>
+          </div>
         </div>
       </div>
     </div>

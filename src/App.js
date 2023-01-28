@@ -69,6 +69,7 @@ function App() {
         },
       });
       const data = await cart.json();
+      console.log("run");
       setCart(data);
     } catch (error) {
       console.log(error);
@@ -76,7 +77,7 @@ function App() {
   };
 
   return (
-    <UserProvider value={{ user, setUser, unsetUser, cart, getCart }}>
+    <UserProvider value={{ user, setUser, unsetUser, cart, setCart, getCart }}>
       <NavBar />
       <Routes>
         <Route path="/" element={<Home />} />
