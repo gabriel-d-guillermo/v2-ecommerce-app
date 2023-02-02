@@ -69,7 +69,6 @@ function App() {
         },
       });
       const data = await cart.json();
-      console.log("run");
       setCart(data);
     } catch (error) {
       console.log(error);

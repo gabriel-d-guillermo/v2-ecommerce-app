@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Button } from "react-bootstrap";
 import "./CartCard.css";
-export default function CartCard({ cartId, user, addItem, removeItem, deleteCart, updateQuantity }) {
+export default function CartCard({ cartId, user, addItem, removeItem, deleteCartItem, updateQuantity }) {
   const [product, setProduct] = useState({});
   const [quantity, setQuantity] = useState(0);
   const [price, setPrice] = useState(0);
@@ -14,6 +14,8 @@ export default function CartCard({ cartId, user, addItem, removeItem, deleteCart
   const handleItem = () => {
     const item = {
       id: cartId,
+      productName: product.productName,
+      imageUrl: product.imageUrl,
       productId: product.productId,
       quantity: quantity,
       price: price,
@@ -72,7 +74,7 @@ export default function CartCard({ cartId, user, addItem, removeItem, deleteCart
           },
         });
         const result = await fetchdata.json();
-        console.log(result);
+
         setProduct(result.data);
         setQuantity(result.data.quantity);
         setPrice(result.data.price);
@@ -139,7 +141,11 @@ export default function CartCard({ cartId, user, addItem, removeItem, deleteCart
             </div>
           </div>
           <div className="col-12 col-sm-12 col-md-2 action py-2">
-            <Button variant="outline-dark" className={inCart ? "disabled" : ""} onClick={() => deleteCart(cartId)}>
+            <Button
+              variant="outline-dark"
+              className={inCart ? "disabled" : ""}
+              onClick={() => deleteCartItem([cartId])}
+            >
               Delete Item
             </Button>
           </div>
