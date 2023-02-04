@@ -1,15 +1,20 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button, Container } from "react-bootstrap";
+
 import UserContext from "../UserContext";
 import CartCard from "../components/CartCard";
+import Swal from "sweetalert2";
 import "./Cart.css";
 
 export default function Cart() {
   if (localStorage.getItem("Orders") === null) {
     localStorage.setItem("Orders", "[]");
   }
+  const navigate = useNavigate();
   const { cart, setCart, user } = useContext(UserContext);
   const [orders, setOrders] = useState(localStorage.getItem("Orders"));
+  const [placeOrder, setPlaceOrder] = useState([]);
   // const newCart = [...cart];
   // console.log(newCart);
   //add nwe item to Orders storage
@@ -74,7 +79,7 @@ export default function Cart() {
     }
   };
 
-  const placeOrder = async order => {
+  const placeOrders = async order => {
     try {
       const items = JSON.parse(localStorage.getItem("Orders"));
       const data = await fetch(`${process.env.REACT_APP_API_URL}/orders`, {
@@ -115,6 +120,14 @@ export default function Cart() {
       console.log(error);
     }
   };
+  useEffect(() => {
+    setPlaceOrder(
+      cart.filter(item => {
+        return item.isOrdered === true;
+      })
+    );
+  }, [cart]);
+
   return (
     <Container fluid={"lg"} className="cart pb-5 px-4">
       <div className="cart-wrapper row mt-5 ">
@@ -129,13 +142,22 @@ export default function Cart() {
                 removeItem={removeItem}
                 deleteCartItem={deleteCartItem}
                 updateQuantity={updateQuantity}
+                setPlaceOrder={setPlaceOrder}
+                placeOrder={placeOrder}
               />
             );
           })}
         </div>
         <div className="order-container">
           <div className="order-card ">
-            <Orders data={orders} cart={cart} userId={user.id} placeOrder={placeOrder} />
+            <Orders
+              data={orders}
+              cart={cart}
+              user={user}
+              placeOrders={placeOrders}
+              navigate={navigate}
+              placeOrder={placeOrder}
+            />
           </div>
         </div>
       </div>
@@ -143,14 +165,14 @@ export default function Cart() {
   );
 }
 
-function Orders({ data, cart, userId, placeOrder }) {
+function Orders({ data, cart, user, placeOrders, navigate, placeOrder }) {
   const items = JSON.parse(data);
-  console.log(items);
-  const length = items.length;
-  const multiply = items.map(item => {
+
+  const length = placeOrder.length;
+  const multiply = placeOrder.map(item => {
     return item.quantity * item.price;
   });
-  // console.log(items);
+
   const total = multiply.reduce((acc, curr) => acc + curr, 0);
   const products = items.map(item => {
     return {
@@ -165,11 +187,28 @@ function Orders({ data, cart, userId, placeOrder }) {
   // console.log(products);
   const createOrder = () => {
     const data = {
-      userId: userId,
+      userId: user.id,
       products: products,
       totalAmount: total,
     };
-    placeOrder(data);
+    if (user.address === null) {
+      Swal.fire({
+        position: "top",
+        icon: "warning",
+        title: "Your Action Cannot Be Processed!",
+        text: "Address and mobile number is empty",
+        showConfirmButton: true,
+        showCancelButton: true,
+        confirmButtonText: "Update Account",
+      }).then(result => {
+        if (result.isConfirmed) {
+          navigate("/account");
+        }
+      });
+      return;
+    } else {
+      placeOrders(data);
+    }
   };
   return (
     <div className="order-amount px-3 py-2">

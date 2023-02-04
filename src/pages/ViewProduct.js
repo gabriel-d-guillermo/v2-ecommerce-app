@@ -1,14 +1,15 @@
 import { useEffect, useState, useContext, useRef } from "react";
 import { Container, Card, Row, Col, Button } from "react-bootstrap";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import UserContext from "../UserContext";
 
 import Swal from "sweetalert2";
 import "./ViewProduct.css";
 export default function ViewProduct() {
+  const navigate = useNavigate();
   const topRef = useRef(null);
   const { id } = useParams();
-  const { user, cartCount, setCartCount, getCart } = useContext(UserContext);
+  const { user, getCart } = useContext(UserContext);
 
   const [productDetails, setProductDetails] = useState(null);
   const [currentQuantity, setCurrentQuantity] = useState(0);
@@ -31,6 +32,22 @@ export default function ViewProduct() {
 
   const handleForm = async e => {
     e.preventDefault();
+    if (user.id === null && user.isAdmin === null) {
+      Swal.fire({
+        position: "top",
+        icon: "warning",
+        title: "Your Action Cannot Be Processed ",
+        text: "You are not currently logged in",
+        showConfirmButton: true,
+        showCancelButton: true,
+        confirmButtonText: "login",
+      }).then(result => {
+        if (result.isConfirmed) {
+          navigate("/login");
+        }
+      });
+      return;
+    }
 
     try {
       const addToCart = await fetch(`${process.env.REACT_APP_API_URL}/cart`, {
@@ -45,7 +62,6 @@ export default function ViewProduct() {
           productName: productDetails.productName,
           quantity: quantity,
           price: price,
-          subTotal: quantity * price,
           imageUrl: productDetails.imageUrl,
         }),
       });
@@ -55,9 +71,9 @@ export default function ViewProduct() {
         Swal.fire({
           position: "top",
           icon: "success",
-          title: "Product has been added to your cart",
+          text: "Product has been added to your cart",
           showConfirmButton: false,
-          timer: 3000,
+          timer: 1500,
           toast: true,
         });
       }
@@ -76,7 +92,7 @@ export default function ViewProduct() {
           setError(true);
         } else {
           setProductDetails(data);
-          setCurrentQuantity(data.quantity - 1);
+          setCurrentQuantity(data.quantity);
           setPrice(data.price);
         }
       } catch (error) {
@@ -90,13 +106,13 @@ export default function ViewProduct() {
     <Container ref={topRef} fluid="md" className="view-product ">
       {productDetails !== null ? (
         <Card className="">
-          <Row className=" m-0">
-            <Col className="img-wrapper">
+          <Row className=" m-0 ">
+            <Col className="img-wrapper col-12 col-sm-6">
               <div className=" img-container">
                 <img className="card-img" src={productDetails.imageUrl} alt="product" />
               </div>
             </Col>
-            <Col className="details-wrapper bg-light">
+            <Col className="details-wrapper bg-light col-12 col-sm-6">
               <form onSubmit={e => handleForm(e)}>
                 <h5 className="mt-4">{productDetails.productName}</h5>
                 <p className="description mt-3">{productDetails.description}</p>
@@ -118,7 +134,9 @@ export default function ViewProduct() {
                   >
                     -
                   </Button>
-                  <button className="btn btn-sm disabled px-3 mx-2">{quantity}</button>
+                  <button type="button" className="btn btn-sm px-3 mx-2">
+                    {quantity}
+                  </button>
 
                   <Button
                     className={`btn btn-dark btn-sm ${quantity === currentQuantity ? "disabled" : ""}`}

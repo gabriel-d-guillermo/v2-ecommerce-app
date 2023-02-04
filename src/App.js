@@ -1,9 +1,8 @@
 import { useState, useEffect, useMemo } from "react";
 // import { BrowserRouter as Router } from "react-router-dom";
 import { Routes, Route } from "react-router-dom";
-import { useLocation } from "react-router-dom";
+// import { useLocation } from "react-router-dom";
 import { UserProvider } from "./UserContext";
-// import { CartProvider } from "./CartContext";
 
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -24,14 +23,15 @@ function App() {
   const [user, setUser] = useState({
     id: null,
     isAdmin: null,
+    adress: null,
   });
   const [cart, setCart] = useState([]);
 
   const unsetUser = () => {
     localStorage.removeItem("token");
   };
-  let location = useLocation();
-  const currentPath = location.pathname;
+  // let location = useLocation();
+  // const currentPath = location.pathname;
 
   useEffect(() => {
     const getUserDetails = async () => {
@@ -46,6 +46,7 @@ function App() {
           setUser({
             id: data._id,
             isAdmin: data.isAdmin,
+            address: data.address,
           });
           await getCart(data._id);
         } else {
@@ -60,7 +61,6 @@ function App() {
     };
     getUserDetails();
   }, []);
-
   const getCart = async id => {
     try {
       const cart = await fetch(`${process.env.REACT_APP_API_URL}/cart/${id}`, {

@@ -27,15 +27,18 @@ export default function NavBar() {
             <Nav className="ms-auto" onClick={scrollTop}>
               {user.id !== null && user.isAdmin === false ? (
                 <>
-                  <Nav.Link as={Link} to="/">
+                  {/* <Nav.Link as={Link} to="/">
                     Home
-                  </Nav.Link>
+                  </Nav.Link> */}
                   <Nav.Link as={Link} to="/products">
                     Products
                   </Nav.Link>
                   <Nav.Link className="my-cart" as={Link} to="/cart">
                     Cart
                     <div className="cart-count">{cart.length}</div>
+                  </Nav.Link>
+                  <Nav.Link as={Link} to="/purchase">
+                    Purchased
                   </Nav.Link>
                   <Nav.Link as={Link} to="/account">
                     Account
@@ -46,9 +49,9 @@ export default function NavBar() {
                 </>
               ) : (
                 <>
-                  <Nav.Link as={Link} to="/">
+                  {/* <Nav.Link as={Link} to="/">
                     Home
-                  </Nav.Link>
+                  </Nav.Link> */}
                   <Nav.Link as={Link} to="/products">
                     Products
                   </Nav.Link>

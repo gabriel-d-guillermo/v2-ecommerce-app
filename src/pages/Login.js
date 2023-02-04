@@ -55,7 +55,7 @@ export default function Login() {
               icon: "success",
               text: "Log in successful!!",
               showConfirmButton: false,
-              timer: 2000,
+              timer: 1500,
               toast: true,
             });
             navigate("/");
@@ -102,7 +102,7 @@ export default function Login() {
     <Container fluid className=" background-container p-2">
       <Card className="login mx-auto mt-5 border pt-3 border-dark" style={{ maxWidth: "25rem", fontSize: "14px" }}>
         <Card.Body className="p-0">
-          <Card.Title className="text-center">Log in</Card.Title>
+          <Card.Title className="text-center">Login</Card.Title>
 
           <Form className=" px-4 py-2 " onSubmit={handleLogin}>
             <Form.Group className="mb-3" controlId="username">
@@ -126,7 +126,7 @@ export default function Login() {
               <Form.Check type="checkbox" onClick={() => setShowPassword(!showPassword)} label="Show password" />
             </Form.Group>
             <Button variant="outline-dark" className="btn btn-sm mx-auto d-block w-75 mt-4 mb-3" type="submit">
-              Log in
+              Login
             </Button>
           </Form>
         </Card.Body>

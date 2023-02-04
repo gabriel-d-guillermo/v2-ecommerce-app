@@ -41,3 +41,16 @@
     font-size: .9rem;
     color: rgb(73, 73, 73);
 }
+@media (max-width:575px){
+    .view-product .img-wrapper{
+        height: auto;
+        padding: 1rem 0;
+        /* border: 1px solid red; */
+    }
+    .view-product .card-img {
+        width: 200px;
+        /* height: 100%; */
+        object-fit: contain;
+
+    }
+}
