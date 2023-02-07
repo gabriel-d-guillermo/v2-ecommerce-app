@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 // import { BrowserRouter as Router } from "react-router-dom";
 import { Routes, Route } from "react-router-dom";
 // import { useLocation } from "react-router-dom";
@@ -18,6 +18,7 @@ import Logout from "./pages/Logout";
 import Product from "./pages/Product";
 import ViewProduct from "./pages/ViewProduct";
 import Register from "./pages/Register";
+import Purchased from "./pages/Purchased";
 
 function App() {
   const [user, setUser] = useState({
@@ -84,6 +85,7 @@ function App() {
         <Route path="/product/:id" element={<ViewProduct />} />
         <Route path="/register" element={user.id !== null && user.isAdmin !== null ? <Home /> : <Register />} />
         <Route path="/login" element={user.id !== null && user.isAdmin !== null ? <Home /> : <Login />} />
+        <Route path="/purchased" element={<Purchased />} />
         <Route path="/logout" element={<Logout />} />
         <Route path="/cart" element={<Cart />} />
       </Routes>
