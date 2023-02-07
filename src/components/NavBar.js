@@ -37,7 +37,7 @@ export default function NavBar() {
                     Cart
                     <div className="cart-count">{cart.length}</div>
                   </Nav.Link>
-                  <Nav.Link as={Link} to="/purchase">
+                  <Nav.Link as={Link} to="/purchased">
                     Purchased
                   </Nav.Link>
                   <Nav.Link as={Link} to="/account">

@@ -2,52 +2,20 @@ import { useState, useEffect } from "react";
 import { Button } from "react-bootstrap";
 
 import "./CartCard.css";
-export default function CartCard({
-  cartId,
-  user,
-  addItem,
-  removeItem,
-  deleteCartItem,
-  updateQuantity,
-  setPlaceOrder,
-  placeOrder,
-}) {
+
+export default function CartCard({ cartId, user, deleteCartItem, setOrders, orders, updateCartItems }) {
   const [product, setProduct] = useState({});
   const [quantity, setQuantity] = useState(0);
   const [price, setPrice] = useState(0);
   const [itemLeft, setItemLeft] = useState(0);
-  const [inCart, setInCart] = useState(false);
   const [isOrdered, setIsOrdered] = useState(false);
-
   const subTotal = price * quantity;
-
-  //add item to localStorage Orders
-  // const handleItem = () => {
-  //   // setIsOrdered(prev => !prev);
-  //   // updateCart(0);
-  //   const item = {
-  //     id: cartId,
-  //     productName: product.productName,
-  //     imageUrl: product.imageUrl,
-  //     productId: product.productId,
-  //     quantity: quantity,
-  //     price: price,
-  //   };
-
-  //   if (!inCart) {
-  //     setInCart(true);
-  //     addItem(item);
-  //   } else {
-  //     setInCart(false);
-  //     removeItem(item.id);
-  //   }
-  // };
 
   const handleDecrement = () => {
     if (quantity > 1) {
       setQuantity(quantity - 1);
-      setPlaceOrder(
-        placeOrder.map(item => {
+      setOrders(
+        orders.map(item => {
           if (item._id === cartId) {
             item.quantity--;
           }
@@ -61,8 +29,8 @@ export default function CartCard({
   const handleIncrement = () => {
     if (itemLeft > quantity) {
       setQuantity(quantity + 1);
-      setPlaceOrder(
-        placeOrder.map(item => {
+      setOrders(
+        orders.map(item => {
           if (item._id === cartId) {
             item.quantity++;
           }
@@ -88,8 +56,8 @@ export default function CartCard({
         });
         const res = await add.json();
         if (res !== null) {
-          setPlaceOrder([...placeOrder, res]);
           setIsOrdered(true);
+          updateCartItems();
         }
       } else {
         const remove = await fetch(`${process.env.REACT_APP_API_URL}/cart/update/${cartId}`, {
@@ -104,15 +72,13 @@ export default function CartCard({
         });
         const res2 = await remove.json();
         if (res2 !== null) {
-          setPlaceOrder(
-            placeOrder.filter(item => {
-              return item._id !== cartId;
-            })
-          );
           setIsOrdered(false);
+          updateCartItems();
         }
       }
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const updateCart = async num => {
@@ -135,7 +101,6 @@ export default function CartCard({
   };
 
   useEffect(() => {
-    const local = JSON.parse(localStorage.getItem("Orders"));
     const getProduct = async () => {
       try {
         const fetchdata = await fetch(`${process.env.REACT_APP_API_URL}/cart/${user.id}/${cartId}`, {
@@ -144,7 +109,6 @@ export default function CartCard({
           },
         });
         const result = await fetchdata.json();
-
         setProduct(result.data);
         setQuantity(result.data.quantity);
         setPrice(result.data.price);
@@ -172,7 +136,7 @@ export default function CartCard({
         <div className="row m-0">
           <div className="col-12 col-sm col-md-4 d-flex p-0 ">
             <div className="img-container">
-              <img className="" src={product.imageUrl} />
+              <img className="" src={product.imageUrl} alt="product" />
             </div>
             <p className="p-2 "> {product.productName}</p>
           </div>
@@ -200,13 +164,13 @@ export default function CartCard({
               })}
             </div>
           </div>
-          <div className="col-12 col-sm-12 col-md-2 action py-2">
+          <div className="col-12 col-sm-12 col-md-2 py-2 action">
             <Button
               variant="outline-dark"
               className={isOrdered ? "disabled" : ""}
               onClick={() => deleteCartItem([cartId])}
             >
-              Delete Item
+              Remove Item
             </Button>
           </div>
         </div>

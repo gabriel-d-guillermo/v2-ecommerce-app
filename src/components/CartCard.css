@@ -70,7 +70,8 @@
     width: 6rem;
     margin-top: .3rem;
     font-size: .7rem;
-    
+    padding: .3rem;
+    margin-left: auto;
 }
 .item-remain{
     float: right;
