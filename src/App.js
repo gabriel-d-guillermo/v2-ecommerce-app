@@ -11,6 +11,7 @@ import Footer from "./components/Footer";
 //component
 import NavBar from "./components/NavBar";
 //pages
+import Account from "./pages/Account";
 import Cart from "./pages/Cart";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -22,17 +23,15 @@ import Purchased from "./pages/Purchased";
 
 function App() {
   const [user, setUser] = useState({
-    id: null,
-    isAdmin: null,
-    adress: null,
+    id: undefined,
+    isAdmin: undefined,
+    address: null,
   });
   const [cart, setCart] = useState([]);
 
   const unsetUser = () => {
     localStorage.removeItem("token");
   };
-  // let location = useLocation();
-  // const currentPath = location.pathname;
 
   useEffect(() => {
     const getUserDetails = async () => {
@@ -82,6 +81,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/products" element={<Product />} />
+        <Route path="/account" element={<Account />} />
         <Route path="/product/:id" element={<ViewProduct />} />
         <Route path="/register" element={user.id !== null && user.isAdmin !== null ? <Home /> : <Register />} />
         <Route path="/login" element={user.id !== null && user.isAdmin !== null ? <Home /> : <Login />} />

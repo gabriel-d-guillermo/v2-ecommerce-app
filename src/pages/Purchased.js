@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { Container, Card } from "react-bootstrap";
 
 import UserContext from "../UserContext";
@@ -17,12 +17,17 @@ export default function Purchased() {
       });
       const data = await fetchData.json();
       setItems(data);
-      console.log(data);
     };
     getData();
   }, []);
 
-  return (
+  if (user.id !== undefined && user.isAdmin) {
+    return <Navigate to="/dashboard" />;
+  }
+  if (user.id === null && user.isAdmin === null) {
+    return <Navigate to="/" />;
+  }
+  return user.id !== undefined && !user.isAdmin ? (
     <Container className="purchased py-5">
       {items.length !== 0 ? (
         <div>
@@ -31,9 +36,11 @@ export default function Purchased() {
           })}
         </div>
       ) : (
-        "Zero purchase"
+        <h2 className="text-white text-center"> No purchased yet! </h2>
       )}
     </Container>
+  ) : (
+    <Container className="purchased"></Container>
   );
 }
 
@@ -47,12 +54,11 @@ function ItemCards({ purchaseDetail }) {
       <Card.Body>
         <ul>
           {products.map(product => {
-            console.log(product.productId);
             return (
               <li key={product._id}>
                 <div className="product-details-wrapper ">
                   <Link to={`/product/${product.productId}`}>
-                    <img src={product.imageUrl} />{" "}
+                    <img src={product.imageUrl} alt="product" />{" "}
                   </Link>
                   <div className="product-details ms-3">
                     <div className=" ">{product.productName}</div>

@@ -1,5 +1,5 @@
 import { useState, useContext, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Navigate } from "react-router-dom";
 import { Button, Container } from "react-bootstrap";
 
 import UserContext from "../UserContext";
@@ -100,7 +100,13 @@ export default function Cart() {
     );
   }, [cart]);
 
-  return (
+  if (user.id !== undefined && user.isAdmin) {
+    return <Navigate to="/dashboard" />;
+  }
+  if (user.id === null && user.isAdmin === null) {
+    return <Navigate to="/" />;
+  }
+  return user.id !== undefined && !user.isAdmin ? (
     <Container fluid={"lg"} className="cart pb-5 px-4">
       <div className="cart-wrapper row mt-5 ">
         <div className="card-container col p-0 mb-2">
@@ -125,6 +131,8 @@ export default function Cart() {
         </div>
       </div>
     </Container>
+  ) : (
+    <Container className="cart"></Container>
   );
 }
 
