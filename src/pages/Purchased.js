@@ -1,4 +1,5 @@
 import { useState, useEffect, useContext } from "react";
+import { Link } from "react-router-dom";
 import { Container, Card } from "react-bootstrap";
 
 import UserContext from "../UserContext";
@@ -22,7 +23,7 @@ export default function Purchased() {
   }, []);
 
   return (
-    <Container className="purchased border pt-5">
+    <Container className="purchased py-5">
       {items.length !== 0 ? (
         <div>
           {items.map(item => {
@@ -37,15 +38,54 @@ export default function Purchased() {
 }
 
 function ItemCards({ purchaseDetail }) {
-  const { purchasedOn, products } = purchaseDetail;
+  const { purchasedOn, products, totalAmount } = purchaseDetail;
+
+  const date = new Date(purchasedOn);
   return (
-    <Card>
-      <Card.Header>{purchasedOn}</Card.Header>
+    <Card className="mt-1">
+      <Card.Header>{`${date.toDateString()} / ${date.toLocaleTimeString()}`}</Card.Header>
       <Card.Body>
         <ul>
           {products.map(product => {
-            return <li key={product._id}>{product.productName}</li>;
+            console.log(product.productId);
+            return (
+              <li key={product._id}>
+                <div className="product-details-wrapper ">
+                  <Link to={`/product/${product.productId}`}>
+                    <img src={product.imageUrl} />{" "}
+                  </Link>
+                  <div className="product-details ms-3">
+                    <div className=" ">{product.productName}</div>
+                    <div className="product-details-quantity ">
+                      <div>
+                        {product.price.toLocaleString("en-US", {
+                          style: "currency",
+                          currency: "PHP",
+                        })}{" "}
+                        x {product.quantity}
+                      </div>
+                      <div className="text-end ">
+                        {product.subTotal.toLocaleString("en-US", {
+                          style: "currency",
+                          currency: "PHP",
+                        })}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <hr />
+              </li>
+            );
           })}
+          <li className="text-end mb-0">
+            Purchase Total:{" "}
+            <span className="text-danger">
+              {totalAmount.toLocaleString("en-US", {
+                style: "currency",
+                currency: "PHP",
+              })}
+            </span>
+          </li>
         </ul>
       </Card.Body>
     </Card>

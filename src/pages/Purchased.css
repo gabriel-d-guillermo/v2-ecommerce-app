@@ -3,3 +3,35 @@
     color: rgb(102, 101, 101);
     font-family: 'montserrat-semi-bold';  
 }
+.purchased .card{
+    font-size: .9rem;
+}
+.purchased .product-details-wrapper{
+    display: flex;
+}
+.purchased .product-details{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+.purchased .product-details-quantity{
+    display: flex;
+}
+.purchased .product-details-quantity > div{
+    font-family: 'montserrat-regular';
+    width: 100%;
+    font-size: .8rem;
+}
+.purchased img{
+    /* width: 2rem; */
+    height: 4rem;
+}
+.purchased ul {
+   margin: 0;
+    padding-left: 0;
+    
+}
+.purchased ul li {
+    list-style: none;
+
+}
