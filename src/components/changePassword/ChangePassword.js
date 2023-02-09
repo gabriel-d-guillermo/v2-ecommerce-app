@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 import Swal from "sweetalert2";
-
+import "./ChangePassword.css";
 export default function EditModal({ data }) {
   const [show, setShow] = useState(false);
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isActive, setIsActive] = useState(false);
-
+  const [showPassword, setShowPassword] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
@@ -39,6 +39,8 @@ export default function EditModal({ data }) {
     setOldPassword("");
     setNewPassword("");
     setConfirmPassword("");
+    setIsActive(false);
+    setShowPassword(false);
   };
 
   const changePassword = () => {
@@ -61,6 +63,8 @@ export default function EditModal({ data }) {
             icon: "success",
             text: "Your Password has successfully been changed!",
           });
+          setIsActive(false);
+          setShowPassword(false);
         } else {
           Swal.fire({
             title: "Current Password is incorrect!",
@@ -68,35 +72,39 @@ export default function EditModal({ data }) {
             text: "Please check your current password!",
           });
         }
-
         setOldPassword("");
         setNewPassword("");
         setConfirmPassword("");
+        setIsActive(false);
+        setShowPassword(false);
       });
   };
 
   useEffect(() => {
     if (oldPassword !== "" && newPassword !== "" && confirmPassword !== "" && newPassword === confirmPassword) {
       setIsActive(true);
+    } else {
+      setIsActive(false);
     }
   }, [oldPassword, newPassword, confirmPassword]);
 
   return (
     <>
-      <Button size="sm" className="btn btn-secondary mt-3" onClick={handleShow}>
+      <Button size="sm" variant="outline-dark" className=" mt-3" onClick={handleShow}>
         Change Password
       </Button>
 
-      <Modal show={show} onHide={handleClose} backdrop="static" keyboard={false}>
+      <Modal className="my-modal pt-5" show={show} onHide={handleClose} backdrop="static" keyboard={false}>
         <Form className="">
           <Modal.Header>
-            <Modal.Title className="text-danger ">Change Password</Modal.Title>
+            <h5 className="text-danger ">Change Password</h5>
           </Modal.Header>
-          <Modal.Body>
+          <Modal.Body className="p-3">
             <Form.Group className="mb-3 " controlId="password">
               <Form.Label className="text-secondary">Enter Current Password</Form.Label>
               <Form.Control
-                type="password"
+                size="sm"
+                type={showPassword ? "text" : "password"}
                 className="profile-input text-secondary"
                 value={oldPassword}
                 onChange={e => setOldPassword(e.target.value.trim())}
@@ -107,7 +115,8 @@ export default function EditModal({ data }) {
             <Form.Group className="mb-3" controlId="new-password">
               <Form.Label className="text-secondary">Enter New Password</Form.Label>
               <Form.Control
-                type="password"
+                size="sm"
+                type={showPassword ? "text" : "password"}
                 value={newPassword}
                 className="profile-input text-secondary"
                 onChange={e => setNewPassword(e.target.value.trim())}
@@ -115,27 +124,31 @@ export default function EditModal({ data }) {
               />
             </Form.Group>
 
-            <Form.Group className="mb-3" controlId="confirm-password">
+            <Form.Group className="mb-2" controlId="confirm-password">
               <Form.Label className="text-secondary">Confirm Password</Form.Label>
               <Form.Control
-                type="password"
+                size="sm"
+                type={showPassword ? "text" : "password"}
                 className="profile-input text-secondary"
                 value={confirmPassword}
                 onChange={e => setConfirmPassword(e.target.value.trim())}
                 autoComplete="off"
               />
             </Form.Group>
+            <Form.Group className="mb-3 text-secondary" controlId="checkbox">
+              <Form.Check type="checkbox" onClick={() => setShowPassword(!showPassword)} label="Show password" />
+            </Form.Group>
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="danger" onClick={e => cancel(e)}>
+            <Button size="sm" variant="outline-danger" onClick={e => cancel(e)}>
               Cancel
             </Button>
             {isActive ? (
-              <Button variant="primary" onClick={e => confirm(e)}>
+              <Button size="sm" variant="outline-success" onClick={e => confirm(e)}>
                 Change Password
               </Button>
             ) : (
-              <Button variant="primary" disabled>
+              <Button size="sm" variant="outline-secondary" disabled>
                 Change Password
               </Button>
             )}
