@@ -1,7 +1,7 @@
 import { useEffect, useState, useContext, useRef } from "react";
 import { Container, Card, Row, Col, Button } from "react-bootstrap";
 import { useParams, useNavigate } from "react-router-dom";
-import UserContext from "../UserContext";
+import UserContext from "../../UserContext";
 
 import Swal from "sweetalert2";
 import "./ViewProduct.css";

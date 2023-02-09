@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import { Container, Row, Button } from "react-bootstrap";
 import Swal from "sweetalert2";
 // import UserContext from "../UserContext";
-import ProductCard from "../components/ProductCard";
+import ProductCard from "../../components/productCard/ProductCard";
 
 import "./Product.css";
 

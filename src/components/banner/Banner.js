@@ -1,4 +1,3 @@
-import { Row, Col, Card } from "react-bootstrap";
 import { Container } from "react-bootstrap";
 import "./Banner.css";
 export default function Banner() {

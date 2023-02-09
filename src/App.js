@@ -1,25 +1,24 @@
 import { useState, useEffect } from "react";
-// import { BrowserRouter as Router } from "react-router-dom";
 import { Routes, Route } from "react-router-dom";
-// import { useLocation } from "react-router-dom";
 import { UserProvider } from "./UserContext";
 
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
+//css
 import "./App.css";
-import Footer from "./components/Footer";
+
 //component
-import NavBar from "./components/NavBar";
+import Footer from "./components/footer/Footer";
+import NavBar from "./components/navBar/NavBar";
+
 //pages
-import Account from "./pages/Account";
-import Cart from "./pages/Cart";
-import Home from "./pages/Home";
-import Login from "./pages/Login";
-import Logout from "./pages/Logout";
-import Product from "./pages/Product";
-import ViewProduct from "./pages/ViewProduct";
-import Register from "./pages/Register";
-import Purchased from "./pages/Purchased";
+import Account from "./pages/account/Account";
+import Cart from "./pages/cart/Cart";
+import Home from "./pages/home/Home";
+import Login from "./pages/login/Login";
+import Logout from "./pages/logout/Logout";
+import Product from "./pages/product/Product";
+import ViewProduct from "./pages/viewProduct/ViewProduct";
+import Register from "./pages/register/Register";
+import Purchased from "./pages/purchased/Purchased";
 
 function App() {
   const [user, setUser] = useState({
@@ -43,12 +42,12 @@ function App() {
         });
         const data = await fetchData.json();
         if (typeof data._id !== "undefined") {
+          await getCart(data._id);
           setUser({
             id: data._id,
             isAdmin: data.isAdmin,
             address: data.address,
           });
-          await getCart(data._id);
         } else {
           setUser({
             id: null,
@@ -61,6 +60,8 @@ function App() {
     };
     getUserDetails();
   }, []);
+
+  //get the users cart items
   const getCart = async id => {
     try {
       const cart = await fetch(`${process.env.REACT_APP_API_URL}/cart/${id}`, {

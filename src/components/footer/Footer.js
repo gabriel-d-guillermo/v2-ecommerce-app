@@ -11,13 +11,23 @@ export default function Footer() {
       <div className=" d-flex flex-wrap justify-content-center">
         <p className="mx-2 my-1">
           <i className="fa-brands fa-square-facebook text-light"></i>&nbsp;
-          <a className="text-light" href="https://www.facebook.com/gabriel.guillermo2/" target="_blank">
+          <a
+            className="text-light"
+            href="https://www.facebook.com/gabriel.guillermo2/"
+            target="_blank"
+            rel="noreferrer"
+          >
             <small className="">facebook</small>
           </a>
         </p>
         <p className="text-light mx-2 my-1 ">
           <i className="fa-brands fa-linkedin"></i>&nbsp;
-          <a className="text-light" href="https://www.linkedin.com/in/gabriel-guillermo-7730b9247/" target="_blank">
+          <a
+            className="text-light"
+            href="https://www.linkedin.com/in/gabriel-guillermo-7730b9247/"
+            target="_blank"
+            rel="noreferrer"
+          >
             <small className="">linkedin</small>
           </a>
         </p>

@@ -3,9 +3,9 @@ import { Navigate } from "react-router-dom";
 import { Form, Col, Button, Row, Container } from "react-bootstrap";
 
 import Swal from "sweetalert2";
-import UserContext from "../UserContext";
+import UserContext from "../../UserContext";
 import "./Account.css";
-import ChangePassword from "../components/ChangePassword";
+import ChangePassword from "../../components/changePassword/ChangePassword";
 
 export default function Account() {
   const { user } = useContext(UserContext);

@@ -1,12 +1,12 @@
 import { useState, useRef, useEffect, useContext } from "react";
 import { Container, Card, Button, Form } from "react-bootstrap";
-import { Navigate, useNavigate } from "react-router-dom";
-import UserContext from "../UserContext";
+import { useNavigate } from "react-router-dom";
+import UserContext from "../../UserContext";
 
 import Swal from "sweetalert2";
 
 export default function Login() {
-  const { user, setUser } = useContext(UserContext);
+  const { setUser } = useContext(UserContext);
   const navigate = useNavigate();
   const [isFormValid, setIsFormValid] = useState(false);
   const [showPassword, setShowPassword] = useState(false);

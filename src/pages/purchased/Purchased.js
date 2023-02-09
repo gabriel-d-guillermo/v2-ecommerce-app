@@ -2,7 +2,7 @@ import { useState, useEffect, useContext } from "react";
 import { Link, Navigate } from "react-router-dom";
 import { Container, Card } from "react-bootstrap";
 
-import UserContext from "../UserContext";
+import UserContext from "../../UserContext";
 import "./Purchased.css";
 export default function Purchased() {
   const { user } = useContext(UserContext);

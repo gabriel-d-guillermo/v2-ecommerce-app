@@ -2,8 +2,8 @@ import { useState, useContext, useEffect } from "react";
 import { useNavigate, Navigate } from "react-router-dom";
 import { Button, Container } from "react-bootstrap";
 
-import UserContext from "../UserContext";
-import CartCard from "../components/CartCard";
+import UserContext from "../../UserContext";
+import CartCard from "../../components/cartCard/CartCard";
 import Swal from "sweetalert2";
 import "./Cart.css";
 
