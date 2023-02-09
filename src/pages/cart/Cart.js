@@ -174,7 +174,6 @@ function Orders({ orders, cart, user, placeOrders, navigate }) {
           navigate("/account");
         }
       });
-      return;
     } else {
       placeOrders(data);
     }

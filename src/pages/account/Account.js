@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import { Navigate } from "react-router-dom";
-import { Form, Col, Button, Row, Container } from "react-bootstrap";
+import { Form, Button, Container } from "react-bootstrap";
 
 import Swal from "sweetalert2";
 import UserContext from "../../UserContext";
@@ -104,17 +104,16 @@ export default function Account() {
   }
 
   return user.id !== undefined && !user.isAdmin ? (
-    <Container className="account">
-      <Row className="justify-content-center mb-5 p-3">
-        <Col className="  col-md-9 col-lg-6 bg-white rounded border  p-3 p-sm-5 shadow">
-          <h3 align="center" className="text-secondary">
-            Profile
-          </h3>
+    <Container className="account ">
+      <div className="d-flex justify-content-center mb-5 mt-3  ">
+        <div className="account-content bg-white rounded ">
+          <div className="text-center fs-5">My Account</div>
 
           <Form className="" onSubmit={e => updateProfile(e)}>
             <Form.Group className="mb-3 " controlId="firstName">
               <Form.Label className="text-secondary">First Name</Form.Label>
               <Form.Control
+                size="sm"
                 type="text"
                 className="profile-input text-secondary"
                 value={firstName}
@@ -127,7 +126,8 @@ export default function Account() {
             <Form.Group className="mb-3" controlId="lastName">
               <Form.Label className="text-secondary">Last Name</Form.Label>
               <Form.Control
-                type="Text"
+                size="sm"
+                type="text"
                 value={lastName}
                 className="profile-input text-secondary"
                 onChange={e => setlastName(e.target.value)}
@@ -139,6 +139,7 @@ export default function Account() {
             <Form.Group className="mb-3" controlId="address">
               <Form.Label className="text-secondary">Address</Form.Label>
               <Form.Control
+                size="sm"
                 type="Text"
                 className="profile-input text-secondary"
                 value={address}
@@ -151,6 +152,7 @@ export default function Account() {
             <Form.Group className="mb-3" controlId="mobileNo">
               <Form.Label className="text-secondary">Mobile Number</Form.Label>
               <Form.Control
+                size="sm"
                 type="Text"
                 className="profile-input text-secondary"
                 value={mobileNo}
@@ -162,23 +164,23 @@ export default function Account() {
 
             {isActive ? (
               <>
-                <Button variant="primary" className="me-1" size="sm" type="submit" id="submitBtn">
+                <Button variant="outline-primary" className="me-1" size="sm" type="submit" id="submitBtn">
                   Save Changes
                 </Button>
-                <Button variant="danger" size="sm" onClick={e => disableEdit()}>
+                <Button variant="outline-danger" size="sm" onClick={e => disableEdit()}>
                   Cancel
                 </Button>
               </>
             ) : (
-              <Button variant="primary" size="sm" onClick={e => enableEdit()}>
+              <Button variant="outline-primary" size="sm" onClick={e => enableEdit()}>
                 Edit Profile
               </Button>
             )}
           </Form>
 
           <ChangePassword />
-        </Col>
-      </Row>
+        </div>
+      </div>
     </Container>
   ) : (
     <Container className="account"></Container>

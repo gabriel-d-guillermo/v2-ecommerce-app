@@ -2,4 +2,9 @@
     min-height: calc(100vh - 56px );   
     color: rgb(102, 101, 101);
     font-family: 'montserrat-semi-bold';  
+   
+}
+.account-content{
+    width: 30rem;
+    padding: 1.5rem;
 }
