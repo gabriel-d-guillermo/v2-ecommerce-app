@@ -27,9 +27,6 @@ export default function NavBar() {
             <Nav className="ms-auto" onClick={scrollTop}>
               {user.id !== null && user.isAdmin === false ? (
                 <>
-                  {/* <Nav.Link as={Link} to="/">
-                    Home
-                  </Nav.Link> */}
                   <Nav.Link as={Link} to="/products">
                     Products
                   </Nav.Link>
@@ -47,11 +44,24 @@ export default function NavBar() {
                     Log Out
                   </Nav.Link>
                 </>
+              ) : user.id !== null && user.isAdmin === true ? (
+                <>
+                  <Nav.Link as={Link} to="/dashboard">
+                    Dashboard
+                  </Nav.Link>
+                  <Nav.Link as={Link} to="/allProducts">
+                    All Products
+                  </Nav.Link>
+                  <Nav.Link as={Link} to="/users">
+                    Users
+                  </Nav.Link>
+
+                  <Nav.Link as={Link} to="/logout">
+                    Log Out
+                  </Nav.Link>
+                </>
               ) : (
                 <>
-                  {/* <Nav.Link as={Link} to="/">
-                    Home
-                  </Nav.Link> */}
                   <Nav.Link as={Link} to="/products">
                     Products
                   </Nav.Link>

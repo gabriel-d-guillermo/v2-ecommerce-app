@@ -12,13 +12,14 @@ import NavBar from "./components/navBar/NavBar";
 //pages
 import Account from "./pages/account/Account";
 import Cart from "./pages/cart/Cart";
+import Dashboard from "./pages/dashboard/Dashboard";
 import Home from "./pages/home/Home";
 import Login from "./pages/login/Login";
 import Logout from "./pages/logout/Logout";
 import Product from "./pages/product/Product";
-import ViewProduct from "./pages/viewProduct/ViewProduct";
-import Register from "./pages/register/Register";
 import Purchased from "./pages/purchased/Purchased";
+import Register from "./pages/register/Register";
+import ViewProduct from "./pages/viewProduct/ViewProduct";
 
 function App() {
   const [user, setUser] = useState({
@@ -81,15 +82,16 @@ function App() {
     <UserProvider value={{ user, setUser, unsetUser, cart, setCart, getCart }}>
       <NavBar />
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/products" element={<Product />} />
         <Route path="/account" element={<Account />} />
-        <Route path="/product/:id" element={<ViewProduct />} />
-        <Route path="/register" element={user.id !== null && user.isAdmin !== null ? <Home /> : <Register />} />
-        <Route path="/login" element={user.id !== null && user.isAdmin !== null ? <Home /> : <Login />} />
-        <Route path="/purchased" element={<Purchased />} />
-        <Route path="/logout" element={<Logout />} />
         <Route path="/cart" element={<Cart />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/logout" element={<Logout />} />
+        <Route path="/login" element={user.id !== null && user.isAdmin !== null ? <Home /> : <Login />} />
+        <Route path="/products" element={<Product />} />
+        <Route path="/purchased" element={<Purchased />} />
+        <Route path="/register" element={user.id !== null && user.isAdmin !== null ? <Home /> : <Register />} />
+        <Route path="/product/:id" element={<ViewProduct />} />
       </Routes>
 
       {/* {currentPath !== "/cart" && <Footer />} */}
