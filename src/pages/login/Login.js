@@ -107,7 +107,7 @@ export default function Login() {
 
           <Form className=" px-4 py-2 " onSubmit={handleLogin}>
             <Form.Group className="mb-3" controlId="username">
-              <Form.Label>User name</Form.Label>
+              <Form.Label>Email</Form.Label>
               <Form.Control ref={emailRef} size="sm" type="email" placeholder="Enter email" autoComplete="off" />
               {isError.email && <span className="error">{isError.email}</span>}
             </Form.Group>
