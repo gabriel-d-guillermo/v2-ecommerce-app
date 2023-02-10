@@ -24,7 +24,7 @@ function App() {
   const [user, setUser] = useState({
     id: undefined,
     isAdmin: undefined,
-    address: null,
+    address: undefined,
   });
   const [cart, setCart] = useState([]);
 
@@ -52,6 +52,7 @@ function App() {
           setUser({
             id: null,
             isAdmin: null,
+            address: null,
           });
         }
       } catch (error) {

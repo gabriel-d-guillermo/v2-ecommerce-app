@@ -48,6 +48,7 @@ export default function Login() {
             setUser({
               id: data._id,
               isAdmin: data.isAdmin,
+              address: data.address,
             });
 
             Swal.fire({
