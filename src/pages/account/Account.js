@@ -27,11 +27,15 @@ export default function Account() {
     })
       .then(res => res.json())
       .then(data => {
-        // console.log(data);
-        setfirstName(data.firstName);
-        setlastName(data.lastName);
-        setAddress(data.address);
-        setMobileNo(data.mobileNo);
+        if (data.address === null && data.mobileNo === null) {
+          setfirstName(data.firstName);
+          setlastName(data.lastName);
+        } else {
+          setfirstName(data.firstName);
+          setlastName(data.lastName);
+          setAddress(data.address);
+          setMobileNo(data.mobileNo);
+        }
       })
       .catch(error => {
         console.log(error);
@@ -56,7 +60,6 @@ export default function Account() {
       .then(res => res.json())
       .then(data => {
         if (data === true) {
-          // console.log(data);
           Swal.fire({
             title: "Edit Success",
             icon: "success",
@@ -74,12 +77,10 @@ export default function Account() {
   };
 
   const enableEdit = () => {
-    // e.preventDefault();
     const status = document.querySelectorAll(".profile-input");
     status.forEach(elem => {
       elem.removeAttribute("disabled");
     });
-    // status.removeAttribute('disabled');
     setIsActive(true);
   };
 
@@ -88,7 +89,6 @@ export default function Account() {
     status2.forEach(elem => {
       elem.setAttribute("disabled", "");
     });
-    // status.removeAttribute('disabled');
     setIsActive(false);
   };
 
@@ -96,9 +96,11 @@ export default function Account() {
     userDetails();
   }, []);
 
+  //admin
   if (user.id !== undefined && user.isAdmin) {
     return <Navigate to="/dashboard" />;
   }
+  //non user
   if (user.id === null && user.isAdmin === null) {
     return <Navigate to="/" />;
   }

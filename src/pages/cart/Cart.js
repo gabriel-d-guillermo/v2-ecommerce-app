@@ -100,9 +100,11 @@ export default function Cart() {
     );
   }, [cart]);
 
+  //admin
   if (user.id !== undefined && user.isAdmin) {
     return <Navigate to="/dashboard" />;
   }
+  //non user
   if (user.id === null && user.isAdmin === null) {
     return <Navigate to="/" />;
   }

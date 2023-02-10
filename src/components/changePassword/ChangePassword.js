@@ -59,24 +59,31 @@ export default function EditModal({ data }) {
       .then(data => {
         if (data === true) {
           Swal.fire({
+            position: "top",
             title: "Success",
             icon: "success",
             text: "Your Password has successfully been changed!",
+            showConfirmButton: false,
+            toast: true,
+            timer: 2000,
           });
           setIsActive(false);
           setShowPassword(false);
+          setOldPassword("");
+          setNewPassword("");
+          setConfirmPassword("");
         } else {
           Swal.fire({
             title: "Current Password is incorrect!",
             icon: "error",
             text: "Please check your current password!",
+          }).then(result => {
+            if (result.isConfirmed) {
+              setShow(true);
+              setShowPassword(false);
+            }
           });
         }
-        setOldPassword("");
-        setNewPassword("");
-        setConfirmPassword("");
-        setIsActive(false);
-        setShowPassword(false);
       });
   };
 
