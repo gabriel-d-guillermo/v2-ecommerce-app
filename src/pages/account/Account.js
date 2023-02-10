@@ -63,6 +63,10 @@ export default function Account() {
           Swal.fire({
             title: "Edit Success",
             icon: "success",
+            position: "top",
+            showConfirmButton: false,
+            toast: true,
+            timer: 2000,
           });
           userDetails();
           disableEdit();
