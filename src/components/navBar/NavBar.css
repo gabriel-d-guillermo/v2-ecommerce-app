@@ -1,8 +1,7 @@
 nav {
     font-family: 'montserrat-semi-bold';
     background-color: var(--bg-dark);
-    /* position:fixed; */
-    /* top:0; */
+ 
     
 }
 .spacer{
@@ -12,7 +11,13 @@ nav {
 
 .show-spacer {
     height: 176px;
-}  
+    transition: height 0.3s ease-in-out;
+} 
+.admin-show-spacer {
+    height: 216px;
+    transition: height 0.3s ease-in-out;
+} 
+
 .my-cart{
     position: relative;
     margin-right: .4rem;
@@ -24,9 +29,7 @@ nav {
     top: 0;
     right:-.2rem;
     font-size: 0.6rem;
-    /* min-width: 1rem; */
     max-width: 2rem;
-    /* height: .rem; */
     text-align: center;
     border-radius: 3px;
     padding: 0 .2rem;
@@ -36,6 +39,9 @@ nav {
     .show-spacer {
         height: 56px;
     }  
+    .admin-show-spacer {
+        height: 56px;
+    } 
   
 }
 @media (max-width: 767px){

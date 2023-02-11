@@ -1,20 +1,28 @@
 import { Link } from "react-router-dom";
-import { useContext, useRef, useState } from "react";
+import { useContext, useRef, useState, useEffect } from "react";
 import UserContext from "../../UserContext";
 
-//bootstrap
-import { Container, Nav, Navbar } from "react-bootstrap";
+//bootstrapNav
+import { Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
 import "./NavBar.css";
 
 export default function NavBar() {
   const { user, cart } = useContext(UserContext);
   const topRef = useRef();
   const [height, setHeight] = useState(false);
-
+  const [style, setStyle] = useState({});
   const scrollTop = () => {
     topRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
+  // useEffect(() => {
+  //   if (user.isAdmin === null) {
+  //     setStyle({ height: "176px" });
+  //   }
+  //   if (user.isAdmin === false) {
+  //     setStyle({ height: "176px" });
+  //   }
+  // }, [height, user.isAdmin]);
   return (
     <>
       <Navbar variant="dark" className="  fixed-top" expand="md">
@@ -34,15 +42,18 @@ export default function NavBar() {
                     Cart
                     <div className="cart-count">{cart.length}</div>
                   </Nav.Link>
-                  <Nav.Link as={Link} to="/purchased">
-                    Purchased
-                  </Nav.Link>
-                  <Nav.Link as={Link} to="/account">
-                    Account
-                  </Nav.Link>
-                  <Nav.Link as={Link} to="/logout">
-                    Log Out
-                  </Nav.Link>
+                  <NavDropdown title={user.email} id="nav-dropdown" align="end">
+                    {/* <NavDropdown.Divider /> */}
+                    <NavDropdown.Item as={Link} to="/account">
+                      My Account
+                    </NavDropdown.Item>
+                    <NavDropdown.Item as={Link} to="/purchased">
+                      My Purchase
+                    </NavDropdown.Item>
+                    <NavDropdown.Item as={Link} to="/logout">
+                      Log out
+                    </NavDropdown.Item>
+                  </NavDropdown>
                 </>
               ) : user.id !== null && user.isAdmin === true ? (
                 <>
@@ -56,9 +67,15 @@ export default function NavBar() {
                     Users
                   </Nav.Link>
 
-                  <Nav.Link as={Link} to="/logout">
-                    Log Out
-                  </Nav.Link>
+                  <NavDropdown title={user.email} id="nav-dropdown" align="end">
+                    {/* <NavDropdown.Divider /> */}
+                    <NavDropdown.Item as={Link} to="/account">
+                      My Account
+                    </NavDropdown.Item>
+                    <NavDropdown.Item as={Link} to="/logout">
+                      Log out
+                    </NavDropdown.Item>
+                  </NavDropdown>
                 </>
               ) : (
                 <>
@@ -77,7 +94,7 @@ export default function NavBar() {
           </Navbar.Collapse>
         </Container>
       </Navbar>
-      <div ref={topRef} className={height ? "spacer show-spacer" : "spacer"}></div>
+      <div ref={topRef} className={height ? (user.isAdmin ? "admin-show-spacer" : "show-spacer") : "spacer"}></div>
     </>
   );
 }
