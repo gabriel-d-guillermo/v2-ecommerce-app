@@ -130,6 +130,7 @@ export default function Account() {
                 onChange={e => setfirstName(e.target.value)}
                 required
                 disabled
+                autoComplete="off"
               />
             </Form.Group>
 
@@ -143,6 +144,7 @@ export default function Account() {
                 onChange={e => setlastName(e.target.value)}
                 required
                 disabled
+                autoComplete="off"
               />
             </Form.Group>
 
@@ -156,6 +158,7 @@ export default function Account() {
                 onChange={e => setAddress(e.target.value)}
                 required
                 disabled
+                autoComplete="off"
               />
             </Form.Group>
 
@@ -169,6 +172,7 @@ export default function Account() {
                 onChange={e => setMobileNo(e.target.value.replace(/[a-zA-Z\s]/g, ""))}
                 required
                 disabled
+                autoComplete="off"
               />
             </Form.Group>
 
