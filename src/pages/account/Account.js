@@ -8,7 +8,7 @@ import "./Account.css";
 import ChangePassword from "../../components/changePassword/ChangePassword";
 
 export default function Account() {
-  const { user } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
 
   const [firstName, setfirstName] = useState("");
   const [lastName, setlastName] = useState("");
@@ -68,6 +68,10 @@ export default function Account() {
             toast: true,
             timer: 2000,
           });
+          setUser({
+            ...user,
+            address: address,
+          });
           userDetails();
           disableEdit();
         } else {
@@ -101,16 +105,16 @@ export default function Account() {
   }, []);
 
   //admin
-  if (user.id !== undefined && user.isAdmin) {
-    return <Navigate to="/dashboard" />;
-  }
+  // if (user.id !== undefined && user.isAdmin) {
+  //   return <Navigate to="/dashboard" />;
+  // }
   //non user
   if (user.id === null && user.isAdmin === null) {
     return <Navigate to="/" />;
   }
 
-  return user.id !== undefined && !user.isAdmin ? (
-    <Container className="account ">
+  return user.id !== undefined && user.isAdmin !== undefined ? (
+    <Container className="account pt-4">
       <div className="d-flex justify-content-center mb-5 mt-3  ">
         <div className="account-content bg-white rounded ">
           <div className="text-center fs-5">My Account</div>
