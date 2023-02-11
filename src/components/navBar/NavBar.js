@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useContext, useRef, useState, useEffect } from "react";
+import { useContext, useRef, useState } from "react";
 import UserContext from "../../UserContext";
 
 //bootstrapNav
@@ -10,19 +10,10 @@ export default function NavBar() {
   const { user, cart } = useContext(UserContext);
   const topRef = useRef();
   const [height, setHeight] = useState(false);
-  const [style, setStyle] = useState({});
   const scrollTop = () => {
     topRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
-  // useEffect(() => {
-  //   if (user.isAdmin === null) {
-  //     setStyle({ height: "176px" });
-  //   }
-  //   if (user.isAdmin === false) {
-  //     setStyle({ height: "176px" });
-  //   }
-  // }, [height, user.isAdmin]);
   return (
     <>
       <Navbar variant="dark" className="  fixed-top" expand="md">
