@@ -11,6 +11,7 @@ import NavBar from "./components/navBar/NavBar";
 
 //pages
 import Account from "./pages/account/Account";
+import AllProducts from "./pages/allProducts/AllProducts";
 import Cart from "./pages/cart/Cart";
 import Dashboard from "./pages/dashboard/Dashboard";
 import Home from "./pages/home/Home";
@@ -26,6 +27,7 @@ function App() {
     id: undefined,
     isAdmin: undefined,
     address: undefined,
+    email: undefined,
   });
   const [cart, setCart] = useState([]);
 
@@ -48,12 +50,14 @@ function App() {
             id: data._id,
             isAdmin: data.isAdmin,
             address: data.address,
+            email: data.email,
           });
         } else {
           setUser({
             id: null,
             isAdmin: null,
             address: null,
+            email: null,
           });
         }
       } catch (error) {
@@ -83,6 +87,7 @@ function App() {
       <NavBar />
       <Routes>
         <Route path="/account" element={<Account />} />
+        <Route path="/allProducts" element={<AllProducts />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/" element={<Home />} />
