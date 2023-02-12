@@ -8,3 +8,16 @@
     width: 30rem;
     padding: 1.5rem;
 }
+.account input:disabled {
+
+    background-color: white;
+}
+.account .input-wrapper{
+    position: relative;
+}
+.account i{
+    position: absolute;
+    top: 6px;
+    right: 6px;
+
+}

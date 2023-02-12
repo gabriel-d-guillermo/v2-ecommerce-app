@@ -122,58 +122,70 @@ export default function Account() {
           <Form className="" onSubmit={e => updateProfile(e)}>
             <Form.Group className="mb-3 " controlId="firstName">
               <Form.Label className="text-secondary">First Name</Form.Label>
-              <Form.Control
-                size="sm"
-                type="text"
-                className="profile-input text-secondary"
-                value={firstName}
-                onChange={e => setfirstName(e.target.value)}
-                required
-                disabled
-                autoComplete="off"
-              />
+              <div className="input-wrapper">
+                <Form.Control
+                  size="sm"
+                  type="text"
+                  className="profile-input text-secondary"
+                  value={firstName}
+                  onChange={e => setfirstName(e.target.value)}
+                  required
+                  disabled
+                  autoComplete="off"
+                />
+                {!isActive && <i className="fa-solid fa-lock"></i>}
+              </div>
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="lastName">
               <Form.Label className="text-secondary">Last Name</Form.Label>
-              <Form.Control
-                size="sm"
-                type="text"
-                value={lastName}
-                className="profile-input text-secondary"
-                onChange={e => setlastName(e.target.value)}
-                required
-                disabled
-                autoComplete="off"
-              />
+              <div className="input-wrapper">
+                <Form.Control
+                  size="sm"
+                  type="text"
+                  value={lastName}
+                  className="profile-input text-secondary"
+                  onChange={e => setlastName(e.target.value)}
+                  required
+                  disabled
+                  autoComplete="off"
+                />
+                {!isActive && <i className="fa-solid fa-lock"></i>}
+              </div>
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="address">
               <Form.Label className="text-secondary">Address</Form.Label>
-              <Form.Control
-                size="sm"
-                type="Text"
-                className="profile-input text-secondary"
-                value={address}
-                onChange={e => setAddress(e.target.value)}
-                required
-                disabled
-                autoComplete="off"
-              />
+              <div className="input-wrapper">
+                <Form.Control
+                  size="sm"
+                  type="Text"
+                  className="profile-input text-secondary"
+                  value={address}
+                  onChange={e => setAddress(e.target.value)}
+                  required
+                  disabled
+                  autoComplete="off"
+                />
+                {!isActive && <i className="fa-solid fa-lock"></i>}
+              </div>
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="mobileNo">
               <Form.Label className="text-secondary">Mobile Number</Form.Label>
-              <Form.Control
-                size="sm"
-                type="Text"
-                className="profile-input text-secondary"
-                value={mobileNo}
-                onChange={e => setMobileNo(e.target.value.replace(/[a-zA-Z\s]/g, ""))}
-                required
-                disabled
-                autoComplete="off"
-              />
+              <div className="input-wrapper">
+                <Form.Control
+                  size="sm"
+                  type="Text"
+                  className="profile-input text-secondary"
+                  value={mobileNo}
+                  onChange={e => setMobileNo(e.target.value.replace(/[a-zA-Z\s]/g, ""))}
+                  required
+                  disabled
+                  autoComplete="off"
+                />
+                {!isActive && <i className="fa-solid fa-lock"></i>}
+              </div>
             </Form.Group>
 
             {isActive ? (
