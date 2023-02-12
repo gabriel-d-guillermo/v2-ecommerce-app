@@ -40,7 +40,7 @@ export default function Login() {
           }),
         });
         const res = await login.json();
-        console.log(res);
+
         if (res.access && res.access !== "undefined") {
           localStorage.setItem("token", res.access);
           const data = await retrieveUserDetails(res.access);
@@ -49,6 +49,7 @@ export default function Login() {
               id: data._id,
               isAdmin: data.isAdmin,
               address: data.address,
+              email: data.email,
             });
 
             Swal.fire({
