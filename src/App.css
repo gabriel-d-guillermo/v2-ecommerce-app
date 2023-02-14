@@ -24,6 +24,7 @@ html{
     min-width: 374px;
     background-color: #faf7f7;
     background-image: var(--bg-img);
+    /* background-color: rgb(24, 24, 24); */
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;

@@ -1,10 +1,61 @@
 .all-product{
-    min-height: calc(100vh - 56px - 104px);   
+    min-height: calc(100vh - 56px );   
     color: rgb(102, 101, 101);
     font-family: 'montserrat-semi-bold'; 
-    padding-top: 2rem;
+    padding: 2rem 0;
   
 }
-.all-product select{
-    color: rgb(102, 101, 101);
+.all-product .table-wrapper{
+    background-color: white;
+    border-radius: 5px 5px 0 0;
+}
+/* .all-product select .form-select{
+    font-size: .9rem;
+    border-radius: 5px;
+    padding: .2rem;
+   max-width: 5rem !important;
+
+} */
+.all-product .table-wrapper-header{
+    padding: 1.5rem 1rem;   
+    position: relative; 
+    border-bottom: 1px solid grey;
+}
+.all-product .table-wrapper-header .form-select{
+    font-size: .9rem !important;
+    border-radius: 5px;
+    padding: .2rem;
+    width: 12rem !important;
+}
+.all-product .table-wrapper-header .search{
+    position: absolute;
+    right: 1rem;
+    top: 1.5rem;
+    width: 15rem;
+}
+.all-product .table-wrapper-header .search-icon{
+    position: absolute;
+    right: .5rem;
+    top: .5rem;
+
+}
+
+.all-product .table-wrapper-content{
+    overflow-x: auto;
+    min-width:352px ;
+    margin-top: 1rem;
+}
+.all-product tbody td{
+    font-size: .75rem;
+}
+.all-product img{
+    width: 4rem;
+}
+.all-product .description{
+    width: 25rem;
+    min-width: 10rem;
+}
+
+.all-product button{
+    font-size: .7rem !important;
 }
