@@ -48,7 +48,7 @@ export default function Dashboard() {
     getdata();
   }, []);
   return (
-    <Container className="dashboard border">
+    <Container className="dashboard">
       <ul className="dashboard-list">
         <li>
           <Link to="/">
