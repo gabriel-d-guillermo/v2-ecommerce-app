@@ -23,6 +23,14 @@ nav {
     margin-right: .4rem;
 
 }
+.dropdown-menu a{
+    font-size: .8rem;
+}
+.dropdown-menu a:hover{
+color:white;
+background-color: var(--bg-dark);
+
+}
 .cart-count{
     position: absolute;
     background-color: rgba(255, 166, 0, 0.808);

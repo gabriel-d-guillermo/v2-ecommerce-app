@@ -67,7 +67,7 @@ function ItemCards({ purchaseDetail }) {
                         {product.price.toLocaleString("en-US", {
                           style: "currency",
                           currency: "PHP",
-                        })}{" "}
+                        })}
                         x {product.quantity}
                       </div>
                       <div className="text-end ">
