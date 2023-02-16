@@ -1,5 +1,7 @@
 import { useState, useEffect, useRef } from "react";
-import { Container, Form, Button, Modal } from "react-bootstrap";
+import { Container, Button } from "react-bootstrap";
+import Swal from "sweetalert2";
+import ProductModal from "../../components/productModal/ProductModal";
 
 import "./AllProducts.css";
 
@@ -8,23 +10,24 @@ export default function AllProducts() {
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [viewCount, setViewCount] = useState(0);
   const [selectedValue, setSelectedValue] = useState("all");
-  const [search, setSearch] = useState("");
   const [searchResult, setSearchResult] = useState([]);
-  const [showEdit, setShowEdit] = useState(false);
+  const [show, setShow] = useState(false);
   const [data, setData] = useState({});
   const searchTerm = useRef("");
+
+  let timeOut = null;
   const options = [
     { value: "all", label: "All Products" },
     { value: "active", label: "Active Products" },
     { value: "archived", label: "Archived Products" },
   ];
-  let filter = null;
-  const handleShowEdit = data => {
-    setShowEdit(true);
+  const handleModalShow = data => {
+    setShow(true);
     setData(data);
   };
-  const handleEditClose = () => {
-    setShowEdit(false);
+  const handleModalClose = () => {
+    setShow(false);
+    setData({});
   };
   const handleSelectedValue = event => {
     setSelectedValue(event.target.value);
@@ -34,23 +37,178 @@ export default function AllProducts() {
     setViewCount(viewCount + 10);
   };
 
+  const handleArchive = async id => {
+    try {
+      const archiveProduct = await fetch(`${process.env.REACT_APP_API_URL}/products/archive/${id}`, {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      const result = await archiveProduct.json();
+      if (result === true) {
+        Swal.fire({
+          position: "top",
+          icon: "success",
+          text: "Product has been Archived",
+          showConfirmButton: false,
+          toast: true,
+          timer: 2000,
+        });
+
+        setFilteredProducts([
+          ...filteredProducts.map(product => {
+            if (product._id === id) {
+              product.isActive = false;
+            }
+            return product;
+          }),
+        ]);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleUnArchive = async id => {
+    try {
+      const archiveProduct = await fetch(`${process.env.REACT_APP_API_URL}/products/unarchive/${id}`, {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      const result = await archiveProduct.json();
+      if (result === true) {
+        Swal.fire({
+          position: "top",
+          icon: "success",
+          text: "Product has been Unarchived",
+          showConfirmButton: false,
+          toast: true,
+          timer: 2000,
+        });
+        setFilteredProducts(
+          filteredProducts.map(product => {
+            if (product._id === id) {
+              product.isActive = true;
+            }
+            return product;
+          })
+        );
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getProducts = async () => {
+    try {
+      const fetchProducts = await fetch(`${process.env.REACT_APP_API_URL}/products`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      const fetchResult = await fetchProducts.json();
+      if (fetchResult !== false) {
+        setProducts(fetchResult);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const addNewProduct = async productData => {
+    try {
+      const newProduct = await fetch(`${process.env.REACT_APP_API_URL}/products`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify(productData),
+      });
+      const result = await newProduct.json();
+      console.log(result);
+      if (result.duplicate !== undefined) {
+        Swal.fire({
+          position: "top",
+          icon: "error",
+          title: "Product name is already in use",
+          showConfirmButton: true,
+        });
+
+        return;
+      }
+      if (result === true) {
+        await getProducts();
+        setData({});
+        setShow(false);
+
+        Swal.fire({
+          position: "top",
+          icon: "success",
+          text: "Successfully added new product!",
+          showConfirmButton: false,
+          toast: true,
+          timer: 2000,
+        });
+        return;
+      }
+      if (result === false) {
+        Swal.fire({
+          position: "top",
+          icon: "error",
+          title: "Something went wrong!!",
+          showConfirmButton: true,
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const updateProduct = async (productId, productData) => {
+    try {
+      const updateProduct = await fetch(`${process.env.REACT_APP_API_URL}/products/${productId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify(productData),
+      });
+      const result = await updateProduct.json();
+      if (result === true) {
+        Swal.fire({
+          position: "top",
+          icon: "success",
+          text: "Edit Success!!",
+          showConfirmButton: false,
+          toast: true,
+          timer: 2000,
+        });
+        await getProducts();
+        setData({});
+        setShow(false);
+        return;
+      }
+      if (!result) {
+        Swal.fire({
+          position: "top",
+          icon: "error",
+          title: "Something went wrong!!",
+          showConfirmButton: true,
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   //when mount
   useEffect(() => {
-    const getProducts = async () => {
-      try {
-        const fetchProducts = await fetch(`${process.env.REACT_APP_API_URL}/products`, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        });
-        const fetchResult = await fetchProducts.json();
-        if (fetchResult !== false) {
-          setProducts(fetchResult);
-        }
-      } catch (error) {}
-    };
     getProducts();
-    console.log("mount");
   }, []);
 
   //get data
@@ -72,51 +230,24 @@ export default function AllProducts() {
         })
       );
     }
-
     setViewCount(10);
   }, [selectedValue, products]);
 
   //search/filter product
-  useEffect(() => {
-    const trimSearch = search.trim();
-    if (trimSearch === "") {
-      setSearchResult([]);
-      return;
-    }
-
-    let filter = null;
-
-    if (trimSearch !== "") {
-      filter = setTimeout(() => {
-        const lowerStr = trimSearch.toLowerCase();
-        const result = filteredProducts.filter(product => {
-          return product.productName.toLowerCase().match(lowerStr) || product.description.toLowerCase().match(lowerStr);
-        });
-        if (result.length > 0) {
-          setSearchResult([...result]);
-        }
-      }, 1000);
-    }
-    console.log("search");
-
-    return () => {
-      clearTimeout(filter);
-    };
-  }, [search, filteredProducts]);
-
-  const testSearch = () => {
+  const searchProduct = () => {
     const trimSearch = searchTerm.current.value.trim();
-    clearTimeout(filter);
+    clearTimeout(timeOut);
+
     if (trimSearch !== "") {
-      filter = setTimeout(() => {
+      timeOut = setTimeout(() => {
         const lowerStr = trimSearch.toLowerCase();
         const result = filteredProducts.filter(product => {
           return product.productName.toLowerCase().match(lowerStr) || product.description.toLowerCase().match(lowerStr);
         });
-        console.log(trimSearch);
         if (result.length > 0) {
           setSearchResult([...result]);
         }
+        console.log(trimSearch);
       }, 1000);
     }
     if (trimSearch === "") {
@@ -134,6 +265,9 @@ export default function AllProducts() {
 
   return (
     <Container fluid="lg" className="all-product">
+      <Button className="btn  mb-4" size="sm" onClick={e => handleModalShow(data)}>
+        Add New Product
+      </Button>
       <div className="table-wrapper">
         <div className="table-wrapper-header">
           <SelectDropdown options={options} value={selectedValue} handleSelectedValue={handleSelectedValue} />
@@ -142,13 +276,11 @@ export default function AllProducts() {
               ref={searchTerm}
               type="search"
               // onChange={e => setSearch(e.target.value)}
-              onChange={e => testSearch()}
+              onChange={e => searchProduct()}
               className="form-control form-control-sm"
               placeholder="Search . . ."
             />
-            {/* {search === "" && <i className="search-icon fa-solid fa-magnifying-glass"></i>} */}
           </div>
-          {/* <div className="search-mobile"><i className="fa-solid fa-magnifying-glass"></i></div> */}
         </div>
 
         <div className="table-wrapper-content">
@@ -166,17 +298,43 @@ export default function AllProducts() {
             <tbody>
               {searchResult.length !== 0
                 ? searchResult.slice(0, viewCount).map(product => {
-                    return <DataTable key={product._id} data={product} handleShowEdit={handleShowEdit} />;
+                    return (
+                      <DataTable
+                        key={product._id}
+                        data={product}
+                        handleModalShow={handleModalShow}
+                        handleArchive={handleArchive}
+                        handleUnArchive={handleUnArchive}
+                      />
+                    );
                   })
                 : filteredProducts.slice(0, viewCount).map(product => {
-                    return <DataTable key={product._id} data={product} handleShowEdit={handleShowEdit} />;
+                    return (
+                      <DataTable
+                        key={product._id}
+                        data={product}
+                        handleModalShow={handleModalShow}
+                        handleArchive={handleArchive}
+                        handleUnArchive={handleUnArchive}
+                      />
+                    );
                   })}
             </tbody>
           </table>
         </div>
       </div>
-      <EditModal showEdit={showEdit} data={data} handleEditClose={handleEditClose} />
-      <button onClick={handleViewCount}>view more</button>
+      <ProductModal
+        show={show}
+        data={data}
+        handleModalClose={handleModalClose}
+        addNewProduct={addNewProduct}
+        updateProduct={updateProduct}
+      />
+      <div className="my-5 text-center">
+        <Button variant="outline-light" onClick={handleViewCount}>
+          View More <i className="fa-solid fa-arrow-down"></i> {}
+        </Button>
+      </div>
     </Container>
   );
 }
@@ -193,8 +351,8 @@ function SelectDropdown({ options, value, handleSelectedValue }) {
   );
 }
 
-function DataTable({ data, handleShowEdit }) {
-  const { productName, imageUrl, price, quantity, _id, description } = data;
+function DataTable({ data, handleModalShow, handleArchive, handleUnArchive }) {
+  const { productName, imageUrl, price, quantity, description, isActive, _id } = data;
   return (
     <tr>
       <td>
@@ -211,41 +369,20 @@ function DataTable({ data, handleShowEdit }) {
       <td>{quantity}</td>
 
       <td>
-        <div>
-          <Button variant="outline-warning" className="me-1 mt-1" size="sm" onClick={e => handleShowEdit(data)}>
-            Edit
-          </Button>
-          <Button variant="outline-danger" className="mt-1" size="sm">
+        <Button variant="outline-warning" className=" mt-1" size="sm" onClick={e => handleModalShow(data)}>
+          Edit
+        </Button>
+        <br />
+        {isActive ? (
+          <Button variant="outline-danger" className="mt-1" size="sm" onClick={e => handleArchive(_id)}>
             Archive
           </Button>
-        </div>
+        ) : (
+          <Button variant="outline-dark" className="mt-1" size="sm" onClick={e => handleUnArchive(_id)}>
+            Unarchive
+          </Button>
+        )}
       </td>
     </tr>
-  );
-}
-
-function EditModal({ showEdit, data, handleEditClose }) {
-  const { productName, imageUrl, price, quantity, _id, description } = data;
-
-  useEffect(() => {
-    if (Object.keys(data).length === 0) {
-      console.log("no data");
-    } else {
-      console.log(data);
-    }
-  }, [data]);
-  return (
-    <Modal show={showEdit} onHide={handleEditClose} backdrop="static" keyboard={false}>
-      <Modal.Header closeButton>
-        <Modal.Title>{productName}</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>I will not close if you click outside me. Don't even try to press escape key.</Modal.Body>
-      <Modal.Footer>
-        <Button variant="secondary" onClick={handleEditClose}>
-          Close
-        </Button>
-        <Button variant="primary">Understood</Button>
-      </Modal.Footer>
-    </Modal>
   );
 }
