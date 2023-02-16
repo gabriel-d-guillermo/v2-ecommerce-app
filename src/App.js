@@ -45,13 +45,15 @@ function App() {
         });
         const data = await fetchData.json();
         if (typeof data._id !== "undefined") {
-          await getCart(data._id);
           setUser({
             id: data._id,
             isAdmin: data.isAdmin,
             address: data.address,
             email: data.email,
           });
+          if (!data.isAdmin) {
+            await getCart(data._id);
+          }
         } else {
           setUser({
             id: null,
@@ -65,7 +67,7 @@ function App() {
       }
     };
     getUserDetails();
-  }, []);
+  }, [user.id]);
 
   //get the users cart items
   const getCart = async id => {
