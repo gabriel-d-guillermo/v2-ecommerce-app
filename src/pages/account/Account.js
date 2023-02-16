@@ -2,20 +2,21 @@ import { useState, useEffect, useContext } from "react";
 import { Navigate } from "react-router-dom";
 import { Form, Button, Container } from "react-bootstrap";
 
-import Swal from "sweetalert2";
 import UserContext from "../../UserContext";
+import Swal from "sweetalert2";
 import "./Account.css";
 import ChangePassword from "../../components/changePassword/ChangePassword";
 
 export default function Account() {
   const { user, setUser } = useContext(UserContext);
-
+  const [data, setData] = useState([]);
   const [firstName, setfirstName] = useState("");
   const [lastName, setlastName] = useState("");
   const [address, setAddress] = useState("");
   const [mobileNo, setMobileNo] = useState("");
   const [isActive, setIsActive] = useState(false);
 
+  console.log(user);
   //user details
   const userDetails = () => {
     fetch(`${process.env.REACT_APP_API_URL}/users/details`, {
@@ -28,9 +29,11 @@ export default function Account() {
       .then(res => res.json())
       .then(data => {
         if (data.address === null && data.mobileNo === null) {
+          setData(data);
           setfirstName(data.firstName);
           setlastName(data.lastName);
         } else {
+          setData(data);
           setfirstName(data.firstName);
           setlastName(data.lastName);
           setAddress(data.address);
@@ -44,6 +47,16 @@ export default function Account() {
 
   const updateProfile = e => {
     e.preventDefault();
+    if (firstName.trim() === "" || lastName.trim() === "" || address.trim() === "" || mobileNo.trim() === "") {
+      Swal.fire({
+        title: "Warning!!",
+        text: "Cannot process an empty field",
+        icon: "warning",
+        position: "top",
+        showConfirmButton: true,
+      });
+      return;
+    }
     fetch(`${process.env.REACT_APP_API_URL}/users/details/${user.id}`, {
       method: "PUT",
       headers: {
@@ -51,10 +64,10 @@ export default function Account() {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
       body: JSON.stringify({
-        firstName: firstName,
-        lastName: lastName,
-        address: address,
-        mobileNo: mobileNo,
+        firstName: firstName.trim(),
+        lastName: lastName.trim(),
+        address: address.trim(),
+        mobileNo: mobileNo.trim(),
       }),
     })
       .then(res => res.json())
@@ -97,17 +110,18 @@ export default function Account() {
     status2.forEach(elem => {
       elem.setAttribute("disabled", "");
     });
+
     setIsActive(false);
+    setfirstName(data.firstName);
+    setlastName(data.lastName);
+    setAddress(data.address);
+    setMobileNo(data.mobileNo);
   };
 
   useEffect(() => {
     userDetails();
   }, []);
 
-  //admin
-  // if (user.id !== undefined && user.isAdmin) {
-  //   return <Navigate to="/dashboard" />;
-  // }
   //non user
   if (user.id === null && user.isAdmin === null) {
     return <Navigate to="/" />;
@@ -164,7 +178,7 @@ export default function Account() {
                   value={address}
                   onChange={e => setAddress(e.target.value)}
                   required
-                  disabled
+                  disabled={!isActive}
                   autoComplete="off"
                 />
                 {!isActive && <i className="fa-solid fa-lock"></i>}
@@ -179,7 +193,7 @@ export default function Account() {
                   type="Text"
                   className="profile-input text-secondary"
                   value={mobileNo}
-                  onChange={e => setMobileNo(e.target.value.replace(/[a-zA-Z\s]/g, ""))}
+                  onChange={e => setMobileNo(e.target.value)}
                   required
                   disabled
                   autoComplete="off"
