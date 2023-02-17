@@ -24,38 +24,13 @@ html{
     min-width: 374px;
     background-color: #faf7f7;
     background-image: var(--bg-img);
-    /* background-color: rgb(24, 24, 24); */
+    background-attachment: fixed;
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-    /* max-width: 100%; */
-    max-height: 100vh;  
-    overflow-y:auto ;
+    min-height: 100vh;  
     position: relative;
 }
-
-@media (min-width:768px){
-    ::-webkit-scrollbar {
-        width: 8px;
-      }
-    
-    ::-webkit-scrollbar-track {
-        background-color: #161515; 
-      }
-       
-     
-      ::-webkit-scrollbar-thumb {
-        background: #e9e5e5; 
-      }
-      
-    
-      ::-webkit-scrollbar-thumb:hover {
-        background: #555; 
-      }
-    
-}
-
-
 
 .error {
     font-size: 10px;

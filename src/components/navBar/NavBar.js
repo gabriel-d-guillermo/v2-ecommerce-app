@@ -23,60 +23,60 @@ export default function NavBar() {
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" onClick={() => setHeight(!height)} />
           <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="ms-auto" onClick={scrollTop}>
+            <Nav className="ms-auto">
               {user.id !== null && user.isAdmin === false ? (
                 <>
-                  <Nav.Link as={Link} to="/products">
+                  <Nav.Link as={Link} to="/products" onClick={scrollTop}>
                     Products
                   </Nav.Link>
-                  <Nav.Link className="my-cart" as={Link} to="/cart">
+                  <Nav.Link className="my-cart" as={Link} to="/cart" onClick={scrollTop}>
                     Cart
                     <div className="cart-count">{cart.length}</div>
                   </Nav.Link>
+                  <Nav.Link as={Link} to="/purchased" onClick={scrollTop}>
+                    My Purchase
+                  </Nav.Link>
                   <NavDropdown title={user.email} id="nav-dropdown" align="end">
-                    {/* <NavDropdown.Divider /> */}
-                    <NavDropdown.Item as={Link} to="/account">
-                      My Account
+                    {/* <NavDropdown.                                                                                                                                                                                             Divider /> */}
+                    <NavDropdown.Item as={Link} to="/account" onClick={scrollTop}>
+                      Account
                     </NavDropdown.Item>
-                    <NavDropdown.Item as={Link} to="/purchased">
-                      My Purchase
-                    </NavDropdown.Item>
-                    <NavDropdown.Item as={Link} to="/logout">
+
+                    <NavDropdown.Item as={Link} to="/logout" onClick={scrollTop}>
                       Log out
                     </NavDropdown.Item>
                   </NavDropdown>
                 </>
               ) : user.id !== null && user.isAdmin === true ? (
                 <>
-                  <Nav.Link as={Link} to="/dashboard">
+                  <Nav.Link as={Link} to="/dashboard" onClick={scrollTop}>
                     Dashboard
                   </Nav.Link>
-                  <Nav.Link as={Link} to="/allProducts">
+                  <Nav.Link as={Link} to="/allProducts" onClick={scrollTop}>
                     All Products
                   </Nav.Link>
-                  <Nav.Link as={Link} to="/users">
+                  <Nav.Link as={Link} to="/users" onClick={scrollTop}>
                     Users
                   </Nav.Link>
 
                   <NavDropdown title={user.email} id="nav-dropdown" align="end">
-                    {/* <NavDropdown.Divider /> */}
-                    <NavDropdown.Item as={Link} to="/account">
+                    <NavDropdown.Item as={Link} to="/account" onClick={scrollTop}>
                       My Account
                     </NavDropdown.Item>
-                    <NavDropdown.Item as={Link} to="/logout">
+                    <NavDropdown.Item as={Link} to="/logout" onClick={scrollTop}>
                       Log out
                     </NavDropdown.Item>
                   </NavDropdown>
                 </>
               ) : (
                 <>
-                  <Nav.Link as={Link} to="/products">
+                  <Nav.Link as={Link} to="/products" onClick={scrollTop}>
                     Products
                   </Nav.Link>
-                  <Nav.Link as={Link} to="/register">
+                  <Nav.Link as={Link} to="/register" onClick={scrollTop}>
                     Register
                   </Nav.Link>
-                  <Nav.Link as={Link} to="/login">
+                  <Nav.Link as={Link} to="/login" onClick={scrollTop}>
                     Login <i className="fa-solid fa-right-to-bracket"></i>
                   </Nav.Link>
                 </>
@@ -85,7 +85,7 @@ export default function NavBar() {
           </Navbar.Collapse>
         </Container>
       </Navbar>
-      <div ref={topRef} className={height ? (user.isAdmin ? "admin-show-spacer" : "show-spacer") : "spacer"}></div>
+      <div ref={topRef} className={height ? (user.id !== null ? "admin-show-spacer" : "show-spacer") : "spacer"}></div>
     </>
   );
 }

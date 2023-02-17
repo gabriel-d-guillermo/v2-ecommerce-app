@@ -94,10 +94,10 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/" element={<Home />} />
         <Route path="/logout" element={<Logout />} />
-        <Route path="/login" element={user.id !== null && user.isAdmin !== null ? <Home /> : <Login />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/products" element={<Product />} />
         <Route path="/purchased" element={<Purchased />} />
-        <Route path="/register" element={user.id !== null && user.isAdmin !== null ? <Home /> : <Register />} />
+        <Route path="/register" element={<Register />} />
         <Route path="/product/:id" element={<ViewProduct />} />
       </Routes>
 

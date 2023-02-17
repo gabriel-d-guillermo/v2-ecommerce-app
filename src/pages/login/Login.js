@@ -1,12 +1,12 @@
 import { useState, useRef, useEffect, useContext } from "react";
 import { Container, Card, Button, Form } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Navigate } from "react-router-dom";
 import UserContext from "../../UserContext";
 
 import Swal from "sweetalert2";
 
 export default function Login() {
-  const { setUser } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
   const navigate = useNavigate();
   const [isFormValid, setIsFormValid] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -14,7 +14,6 @@ export default function Login() {
   const [isError, setIsError] = useState({});
   const emailRef = useRef();
   const passwordRef = useRef();
-
   const handleLogin = e => {
     e.preventDefault();
     let error = {};
@@ -60,7 +59,14 @@ export default function Login() {
               timer: 1500,
               toast: true,
             });
-            navigate("/");
+            if (data.isAdmin) {
+              navigate("dashboard");
+            }
+            if (!data.isAdmin) {
+              navigate("/products");
+            }
+            // if (user.id !== null && user.isAdmin) return <Navigate to="/dashboard" />;
+            // if (user.id !== null && !user.isAdmin) return <Navigate to="/products" />;
           } else {
             Swal.fire({
               icon: "error",
@@ -75,7 +81,9 @@ export default function Login() {
             width: "25rem",
           });
         }
-      } catch (error) {}
+      } catch (error) {
+        console.log(error);
+      }
     };
     if (isFormValid) loginUser();
 
@@ -100,8 +108,14 @@ export default function Login() {
     }
   };
 
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
+  if (user.id !== null && user.isAdmin) return <Navigate to="/dashboard" />;
+  if (user.id !== null && !user.isAdmin) return <Navigate to="/products" />;
+
   return (
-    <Container fluid className=" background-container p-2">
+    <Container fluid className=" background-container p-2 ">
       <Card className="login mx-auto mt-5 border pt-3 border-dark" style={{ maxWidth: "25rem", fontSize: "14px" }}>
         <Card.Body className="p-0">
           <Card.Title className="text-center">Login</Card.Title>

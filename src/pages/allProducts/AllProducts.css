@@ -9,13 +9,8 @@
     background-color: white;
     border-radius: 5px 5px 0 0;
 }
-/* .all-product select .form-select{
-    font-size: .9rem;
-    border-radius: 5px;
-    padding: .2rem;
-   max-width: 5rem !important;
 
-} */
+
 .all-product .table-wrapper-header{
     padding: 1.5rem 1rem;   
     position: relative; 
@@ -56,6 +51,8 @@
     min-width: 10rem;
 }
 
-.all-product button{
+.all-product td button {
     font-size: .7rem !important;
+    padding: 2px !important;  
+    width: 5rem; 
 }

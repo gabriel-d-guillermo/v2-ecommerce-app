@@ -47,6 +47,8 @@ export default function AllProducts() {
       });
       const result = await archiveProduct.json();
       if (result === true) {
+        await getProducts();
+
         Swal.fire({
           position: "top",
           icon: "success",
@@ -55,15 +57,6 @@ export default function AllProducts() {
           toast: true,
           timer: 2000,
         });
-
-        setFilteredProducts([
-          ...filteredProducts.map(product => {
-            if (product._id === id) {
-              product.isActive = false;
-            }
-            return product;
-          }),
-        ]);
       }
     } catch (error) {
       console.log(error);
@@ -80,6 +73,7 @@ export default function AllProducts() {
       });
       const result = await archiveProduct.json();
       if (result === true) {
+        await getProducts();
         Swal.fire({
           position: "top",
           icon: "success",
@@ -88,14 +82,6 @@ export default function AllProducts() {
           toast: true,
           timer: 2000,
         });
-        setFilteredProducts(
-          filteredProducts.map(product => {
-            if (product._id === id) {
-              product.isActive = true;
-            }
-            return product;
-          })
-        );
       }
     } catch (error) {
       console.log(error);
@@ -258,7 +244,7 @@ export default function AllProducts() {
   if (products.length === 0) {
     return (
       <Container className="all-product">
-        <h1 className="text-center text-white">No Data Avialable!</h1>
+        <h3 className="text-center text-white">No Data Avialable!</h3>
       </Container>
     );
   }
@@ -276,7 +262,7 @@ export default function AllProducts() {
               ref={searchTerm}
               type="search"
               // onChange={e => setSearch(e.target.value)}
-              onChange={e => searchProduct()}
+              onChange={searchProduct}
               className="form-control form-control-sm"
               placeholder="Search . . ."
             />
@@ -296,29 +282,37 @@ export default function AllProducts() {
               </tr>
             </thead>
             <tbody>
-              {searchResult.length !== 0
-                ? searchResult.slice(0, viewCount).map(product => {
-                    return (
-                      <DataTable
-                        key={product._id}
-                        data={product}
-                        handleModalShow={handleModalShow}
-                        handleArchive={handleArchive}
-                        handleUnArchive={handleUnArchive}
-                      />
-                    );
-                  })
-                : filteredProducts.slice(0, viewCount).map(product => {
-                    return (
-                      <DataTable
-                        key={product._id}
-                        data={product}
-                        handleModalShow={handleModalShow}
-                        handleArchive={handleArchive}
-                        handleUnArchive={handleUnArchive}
-                      />
-                    );
-                  })}
+              {filteredProducts.length === 0 ? (
+                <tr>
+                  <td colSpan="6" className=" text-center">
+                    No Results
+                  </td>
+                </tr>
+              ) : searchResult.length !== 0 ? (
+                searchResult.slice(0, viewCount).map(product => {
+                  return (
+                    <DataTable
+                      key={product._id}
+                      data={product}
+                      handleModalShow={handleModalShow}
+                      handleArchive={handleArchive}
+                      handleUnArchive={handleUnArchive}
+                    />
+                  );
+                })
+              ) : (
+                filteredProducts.slice(0, viewCount).map(product => {
+                  return (
+                    <DataTable
+                      key={product._id}
+                      data={product}
+                      handleModalShow={handleModalShow}
+                      handleArchive={handleArchive}
+                      handleUnArchive={handleUnArchive}
+                    />
+                  );
+                })
+              )}
             </tbody>
           </table>
         </div>

@@ -119,6 +119,8 @@ export default function Account() {
   };
 
   useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+
     userDetails();
   }, []);
 
