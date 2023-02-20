@@ -19,7 +19,11 @@ export default function ProductCard({ prop }) {
             currency: "PHP",
           })}
         </Card.Text>
-        <Card.Text className=" product-quantity">Product Available: {quantity}</Card.Text>
+        {quantity > 0 ? (
+          <Card.Text className=" product-quantity ">Product Available: {quantity}</Card.Text>
+        ) : (
+          <Card.Text className=" product-quantity text-danger">Product not Available</Card.Text>
+        )}
       </Card.Body>
     </Card>
   );

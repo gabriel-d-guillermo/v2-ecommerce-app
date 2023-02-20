@@ -1,19 +1,20 @@
-import { useState, useEffect, useRef } from "react";
-
+import { useState, useEffect, useRef, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import { Container, Row, Button } from "react-bootstrap";
 import Swal from "sweetalert2";
-// import UserContext from "../UserContext";
+import UserContext from "../../UserContext";
 import ProductCard from "../../components/productCard/ProductCard";
-
+import Loading from "../../components/loading/Loading";
 import "./Product.css";
 
 export default function Product() {
-  // const { user } = useContext(UserContext);
+  const { user } = useContext(UserContext);
+  const navigate = useNavigate();
   const topRef = useRef(null);
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [filterItems, setFilterItems] = useState([]);
-  const [viewCount, setViewCount] = useState(10);
+  const [viewCount, setViewCount] = useState(0);
 
   //get all products
   useEffect(() => {
@@ -28,6 +29,7 @@ export default function Product() {
         setProducts(fetchedData);
         setFilterItems(fetchedData);
         setLoading(false);
+        setViewCount(10);
       } catch (error) {
         if (error.name === "AbortError") {
           console.warn("Request was cancelled");
@@ -44,6 +46,7 @@ export default function Product() {
       }
     }
     getProducts();
+
     return () => controller.abort();
   }, []);
 
@@ -63,15 +66,13 @@ export default function Product() {
     setFilterItems(products);
   };
 
+  if (user.id !== null && user.isAdmin === true) {
+    navigate("/dashboard");
+  }
   return (
     <Container ref={topRef} fluid="md" className="product">
       {loading ? (
-        <div className="loading">
-          <div className="spinner-border" role="status">
-            <span className="visually-hidden">Loading...</span>
-          </div>
-          <div>Loading . . . </div>
-        </div>
+        <Loading />
       ) : products.length > 0 ? (
         <>
           <div className="" style={{ height: "4rem" }}>
@@ -85,6 +86,7 @@ export default function Product() {
               style={{ minWidth: "20rem" }}
             ></input>
           </div>
+
           <Row className="">
             {filterItems.slice(0, viewCount).map((product, index) => {
               return <ProductCard key={index} prop={product} />;
@@ -93,14 +95,14 @@ export default function Product() {
           {/* show view more button if the length of products is greater than the viewCount Value */}
           {filterItems.length > viewCount && (
             <div className="text-center my-5">
-              <Button variant="outline-light" onClick={() => setViewCount(viewCount + 10)}>
+              <Button variant="outline-dark" onClick={() => setViewCount(viewCount + 10)}>
                 View More <i className="fa-solid fa-arrow-down"></i> {}
               </Button>
             </div>
           )}
         </>
       ) : (
-        <h2 className="mt-5 text-center text-white">No Data Available</h2>
+        <h2 className="mt-5 text-center text-dark">No Data Available</h2>
       )}
     </Container>
   );

@@ -121,43 +121,48 @@ export default function ViewProduct() {
                   {price.toLocaleString("en-US", {
                     style: "currency",
                     currency: "PHP",
-                  })}{" "}
+                  })}
                 </p>
                 <p>Product Available : {currentQuantity}</p>
-                <p></p>
-                <small>Quantity:</small>
-                <br />
-                <div className="btn-group mb-3">
-                  <Button
-                    className={`btn btn-dark btn-sm ${quantity === 1 ? "disabled" : ""}`}
-                    onClick={handleDecrement}
-                  >
-                    -
-                  </Button>
-                  <button type="button" className="btn btn-sm px-3 mx-2">
-                    {quantity}
-                  </button>
+                {currentQuantity > 0 ? (
+                  <div>
+                    <small>Quantity:</small>
+                    <br />
+                    <div className="btn-group mb-3">
+                      <Button
+                        className={`btn btn-dark btn-sm ${quantity === 1 ? "disabled" : ""}`}
+                        onClick={handleDecrement}
+                      >
+                        -
+                      </Button>
+                      <button type="button" className="btn btn-sm px-3 mx-2">
+                        {quantity}
+                      </button>
 
-                  <Button
-                    className={`btn btn-dark btn-sm ${quantity === currentQuantity ? "disabled" : ""}`}
-                    onClick={handleIncrement}
-                  >
-                    +
-                  </Button>
-                </div>
-                <p>
-                  Amount:{" "}
-                  {amount.toLocaleString("en-US", {
-                    style: "currency",
-                    currency: "PHP",
-                  })}{" "}
-                </p>
-                <div>
-                  <Button type="submit" variant="outline-dark my-3" className="form-control">
-                    Add to Cart
-                  </Button>
-                  {/* <button className="form-control"></button> */}
-                </div>
+                      <Button
+                        className={`btn btn-dark btn-sm ${quantity === currentQuantity ? "disabled" : ""}`}
+                        onClick={handleIncrement}
+                      >
+                        +
+                      </Button>
+                    </div>
+                    <p>
+                      Amount:{" "}
+                      {amount.toLocaleString("en-US", {
+                        style: "currency",
+                        currency: "PHP",
+                      })}{" "}
+                    </p>
+                    <div>
+                      <Button type="submit" variant="outline-dark my-3" className="form-control">
+                        Add to Cart
+                      </Button>
+                      {/* <button className="form-control"></button> */}
+                    </div>
+                  </div>
+                ) : (
+                  <p className="text-danger fs-4 mt-5 text-center">This Product Currently Not Available</p>
+                )}
               </form>
             </Col>
           </Row>
