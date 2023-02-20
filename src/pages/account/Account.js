@@ -16,7 +16,6 @@ export default function Account() {
   const [mobileNo, setMobileNo] = useState("");
   const [isActive, setIsActive] = useState(false);
 
-  console.log(user);
   //user details
   const userDetails = () => {
     fetch(`${process.env.REACT_APP_API_URL}/users/details`, {

@@ -1,7 +1,9 @@
 :root{
-    --bg-dark:#131212;
+
+    --color-primary:hsl(200, 25%, 21%);
+    --color-secondary:hsl(202, 15%, 40%);
+   
     --bg-img:url('./asset/images/backgroundImg.jpg');
-    
 }
 @font-face {
     font-family: 'montserrat-regular';
@@ -22,13 +24,16 @@ html{
 }
 #root {
     min-width: 374px;
-    background-color: #faf7f7;
+    /* background-color: rgb(243, 241, 241); */
+    /* background: linear-gradient(to left, rgb(40, 58, 67), rgb(40, 58, 67)); */
     background-image: var(--bg-img);
     background-attachment: fixed;
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
+    
     min-height: 100vh;  
+    min-height: 100dvh;  
     position: relative;
 }
 
@@ -39,34 +44,17 @@ html{
     display: block;
 }
 
-.loading {
-    width: 15rem;  
-    margin: 10rem auto ;  
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 2px 2px 8px #565657;
-    border-radius: 2px;
-    padding: 1rem;
-    background-color: white;
-    border: 2px solid black;
-    outline: 2px solid white;
-}
-.spinner-border{
-    margin-right: .6rem;
-}
 .background {
     background-color: black;
     opacity: .5;
 }
 
 .background-container {
-    min-height: calc(100vh  - 56px);   
-    padding-bottom: 3rem;
-
+    min-height: calc(100vh - 100px);   
+    padding-bottom: 3rem
 }
 footer{
-    background-color: var(--bg-dark);
+    background-color: var(--color-primary);
 }
 .register, .login {
     font-family: 'montserrat-semi-bold';
@@ -93,10 +81,10 @@ footer{
 }
 
 .swal2-toast{
-    /* background: red !important; */
-    background-color: rgba(0, 0, 0, 0.8) !important;
-    border: 1px solid limegreen !important;
-    color: whitesmoke !important;
+
+    background-color: white !important;
+    border: 1px solid var(--color-primary)!important;
+    color: var(--color-primary) !important;
 }
 .swal2-popup.swal2-toast .swal2-title{
     color: whitesmoke !important;

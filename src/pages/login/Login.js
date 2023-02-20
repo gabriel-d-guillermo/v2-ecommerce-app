@@ -60,13 +60,11 @@ export default function Login() {
               toast: true,
             });
             if (data.isAdmin) {
-              navigate("dashboard");
+              navigate("/dashboard");
             }
             if (!data.isAdmin) {
               navigate("/products");
             }
-            // if (user.id !== null && user.isAdmin) return <Navigate to="/dashboard" />;
-            // if (user.id !== null && !user.isAdmin) return <Navigate to="/products" />;
           } else {
             Swal.fire({
               icon: "error",
@@ -111,8 +109,9 @@ export default function Login() {
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
-  if (user.id !== null && user.isAdmin) return <Navigate to="/dashboard" />;
-  if (user.id !== null && !user.isAdmin) return <Navigate to="/products" />;
+
+  if (user.id !== null && user.isAdmin === true) return <Navigate to="/dashboard" />;
+  if (user.id !== null && user.isAdmin === false) return <Navigate to="/products" />;
 
   return (
     <Container fluid className=" background-container p-2 ">

@@ -8,7 +8,8 @@
     margin-top: 2rem;
     padding: 2rem 2.5rem;
     background-color: white;
-    background-color: rgb(32, 32, 32); 
+    /* background-color: rgb(32, 32, 32);  */
+    background-color:rgb(40, 58, 68,.6);
     border-radius:5px;
 }
 .dashboard .dashboard-list li{
@@ -27,11 +28,19 @@
 .dashboard .products-list{
     padding-left: 0;
     padding-top: 1rem;
+    /* border: 1px solid white; */
 }
 .dashboard .products-list li{
+    color: rgb(231, 226, 226);
     padding-left: 1rem;
     padding-right: 0;
     margin-bottom: 0;
-    font-size: .9rem;
+    font-size: .8rem;
+    
 }
-
+.dashboard .products-list li::before{
+    content: " - ";
+}
+hr{
+    border-color:white !important;
+}

@@ -39,8 +39,6 @@ export default function Dashboard() {
             }).length
           );
         }
-
-        // const users = await fetch();
       } catch (error) {
         console.log(error);
       }
@@ -70,12 +68,6 @@ export default function Dashboard() {
           </ul>
         </li>
         <hr />
-        {/* <li>
-          <Link to="/">
-            Archived Products <span className="float-end">{archiveProductsCount}</span>
-          </Link>
-        </li>
-        <hr /> */}
       </ul>
     </Container>
   );

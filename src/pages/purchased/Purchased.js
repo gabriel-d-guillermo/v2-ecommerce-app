@@ -3,12 +3,15 @@ import { Link, Navigate } from "react-router-dom";
 import { Container, Card } from "react-bootstrap";
 
 import UserContext from "../../UserContext";
+import Loading from "../../components/loading/Loading";
 import "./Purchased.css";
 export default function Purchased() {
   const { user } = useContext(UserContext);
   const [items, setItems] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
     const getData = async () => {
       const fetchData = await fetch(`${process.env.REACT_APP_API_URL}/orders/`, {
         headers: {
@@ -16,11 +19,23 @@ export default function Purchased() {
         },
       });
       const data = await fetchData.json();
+
       setItems(data);
+      setLoading(false);
     };
     getData();
+    return () => {
+      setLoading(false);
+    };
   }, []);
 
+  if (loading) {
+    return (
+      <Container className="purchased">
+        <Loading />
+      </Container>
+    );
+  }
   if (user.id !== undefined && user.isAdmin) {
     return <Navigate to="/dashboard" />;
   }
@@ -36,7 +51,7 @@ export default function Purchased() {
           })}
         </div>
       ) : (
-        <h2 className="text-white text-center"> No purchased yet! </h2>
+        <h2 className="text-dark text-center"> No purchased yet! </h2>
       )}
     </Container>
   ) : (
@@ -49,16 +64,18 @@ function ItemCards({ purchaseDetail }) {
 
   const date = new Date(purchasedOn);
   return (
-    <Card className="mt-1">
+    <Card className="mt-1 shadow-sm">
       <Card.Header>{`${date.toDateString()} / ${date.toLocaleTimeString()}`}</Card.Header>
       <Card.Body>
         <ul>
           {products.map(product => {
             return (
               <li key={product._id}>
-                <div className="product-details-wrapper ">
+                <div className="product-details-wrapper mb-3">
                   <Link to={`/product/${product.productId}`}>
-                    <img src={product.imageUrl} alt="product" />{" "}
+                    <div className="img-container">
+                      <img src={product.imageUrl} alt="product" />
+                    </div>
                   </Link>
                   <div className="product-details ms-3">
                     <div className=" ">{product.productName}</div>
@@ -79,7 +96,6 @@ function ItemCards({ purchaseDetail }) {
                     </div>
                   </div>
                 </div>
-                <hr />
               </li>
             );
           })}

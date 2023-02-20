@@ -58,7 +58,6 @@ export default function NavBar() {
                   <Nav.Link as={Link} to="/users" onClick={scrollTop}>
                     Users
                   </Nav.Link>
-
                   <NavDropdown title={user.email} id="nav-dropdown" align="end">
                     <NavDropdown.Item as={Link} to="/account" onClick={scrollTop}>
                       My Account

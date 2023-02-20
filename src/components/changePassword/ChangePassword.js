@@ -12,10 +12,9 @@ export default function EditModal({ data }) {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  // console.log([oldPassword,newPassword,confirmPassword])
   const confirm = e => {
     e.preventDefault();
-    setShow(false);
+
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -43,48 +42,47 @@ export default function EditModal({ data }) {
     setShowPassword(false);
   };
 
-  const changePassword = () => {
-    fetch(`${process.env.REACT_APP_API_URL}/users/changePassword`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-      body: JSON.stringify({
-        password: oldPassword,
-        newPassword: newPassword,
-      }),
-    })
-      .then(res => res.json())
-      .then(data => {
-        if (data === true) {
-          Swal.fire({
-            position: "top",
-            title: "Success",
-            icon: "success",
-            text: "Your Password has successfully been changed!",
-            showConfirmButton: false,
-            toast: true,
-            timer: 2000,
-          });
-          setIsActive(false);
-          setShowPassword(false);
-          setOldPassword("");
-          setNewPassword("");
-          setConfirmPassword("");
-        } else {
-          Swal.fire({
-            title: "Current Password is incorrect!",
-            icon: "error",
-            text: "Please check your current password!",
-          }).then(result => {
-            if (result.isConfirmed) {
-              setShow(true);
-              setShowPassword(false);
-            }
-          });
-        }
+  const changePassword = async () => {
+    try {
+      console.log("bobo");
+      const updatePassword = await fetch(`${process.env.REACT_APP_API_URL}/users/changePassword`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify({
+          password: oldPassword,
+          newPassword: newPassword,
+        }),
       });
+      const result = await updatePassword.json();
+      if (result === true) {
+        Swal.fire({
+          position: "top",
+          title: "Success",
+          icon: "success",
+          text: "Your Password has successfully been changed!",
+          showConfirmButton: false,
+          toast: true,
+          timer: 2000,
+        });
+        setShow(false);
+        setIsActive(false);
+        setShowPassword(false);
+        setOldPassword("");
+        setNewPassword("");
+        setConfirmPassword("");
+      } else {
+        Swal.fire({
+          title: "Current Password is incorrect!",
+          icon: "error",
+          text: "Please check your current password!",
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {

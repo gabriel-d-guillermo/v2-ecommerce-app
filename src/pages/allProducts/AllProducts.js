@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Container, Button } from "react-bootstrap";
 import Swal from "sweetalert2";
+import Loading from "../../components/loading/Loading";
 import ProductModal from "../../components/productModal/ProductModal";
 
 import "./AllProducts.css";
@@ -13,6 +14,7 @@ export default function AllProducts() {
   const [searchResult, setSearchResult] = useState([]);
   const [show, setShow] = useState(false);
   const [data, setData] = useState({});
+  const [loading, setLoading] = useState(false);
   const searchTerm = useRef("");
 
   let timeOut = null;
@@ -38,6 +40,7 @@ export default function AllProducts() {
   };
 
   const handleArchive = async id => {
+    setLoading(true);
     try {
       const archiveProduct = await fetch(`${process.env.REACT_APP_API_URL}/products/archive/${id}`, {
         method: "PATCH",
@@ -57,6 +60,7 @@ export default function AllProducts() {
           toast: true,
           timer: 2000,
         });
+        setLoading(false);
       }
     } catch (error) {
       console.log(error);
@@ -194,7 +198,27 @@ export default function AllProducts() {
 
   //when mount
   useEffect(() => {
-    getProducts();
+    setLoading(true);
+    const data = async () => {
+      try {
+        const fetchProducts = await fetch(`${process.env.REACT_APP_API_URL}/products`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
+        const fetchResult = await fetchProducts.json();
+        if (fetchResult !== false) {
+          setProducts(fetchResult);
+        }
+        setLoading(false);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    data();
+    return () => {
+      setLoading(false);
+    };
   }, []);
 
   //get data
@@ -241,16 +265,21 @@ export default function AllProducts() {
     }
   };
 
-  if (products.length === 0) {
-    return (
-      <Container className="all-product">
-        <h3 className="text-center text-white">No Data Avialable!</h3>
-      </Container>
-    );
-  }
+  // if (loading) {
+  //   return <Loading />;
+  // }
+
+  // if (products.length === 0) {
+  //   return (
+  //     <Container className="all-product">
+  //       <h3 className="text-center text-white">No Data Avialable!</h3>
+  //     </Container>
+  //   );
+  // }
 
   return (
-    <Container fluid="lg" className="all-product">
+    <Container fluid="lg" className="all-product ">
+      {loading && <Loading />}
       <Button className="btn  mb-4" size="sm" onClick={e => handleModalShow(data)}>
         Add New Product
       </Button>
@@ -324,11 +353,13 @@ export default function AllProducts() {
         addNewProduct={addNewProduct}
         updateProduct={updateProduct}
       />
-      <div className="my-5 text-center">
-        <Button variant="outline-light" onClick={handleViewCount}>
-          View More <i className="fa-solid fa-arrow-down"></i> {}
-        </Button>
-      </div>
+      {filteredProducts.length !== 0 && filteredProducts.length > viewCount && (
+        <div className="my-5 text-center">
+          <Button variant="outline-light" onClick={handleViewCount}>
+            View More <i className="fa-solid fa-arrow-down"></i> {}
+          </Button>
+        </div>
+      )}
     </Container>
   );
 }

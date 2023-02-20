@@ -1,6 +1,8 @@
 nav {
     font-family: 'montserrat-semi-bold';
-    background-color: var(--bg-dark);
+    background-color: var(--color-primary);
+    /* background-color: whitesmoke; */
+    /* background: linear-gradient(to left, rgb(202, 202, 204), rgb(67, 102, 98)); */
  
     
 }
@@ -28,7 +30,7 @@ nav {
 }
 .dropdown-menu a:hover{
 color:white;
-background-color: var(--bg-dark);
+background-color: var(--color-primary);
 
 }
 .cart-count{

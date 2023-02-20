@@ -48,7 +48,7 @@ function App() {
           setUser({
             id: data._id,
             isAdmin: data.isAdmin,
-            address: data.address,
+            address: data.address,                          
             email: data.email,
           });
           if (!data.isAdmin) {
@@ -61,7 +61,7 @@ function App() {
             address: null,
             email: null,
           });
-        }
+        }      
       } catch (error) {
         console.log(error);
       }

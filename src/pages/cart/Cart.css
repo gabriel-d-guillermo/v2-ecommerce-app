@@ -1,5 +1,5 @@
 .cart{
-    min-height: calc(100vh - 56px );   
+    min-height: calc(90vh - 56px );   
     color: rgb(102, 101, 101);
     font-family: 'montserrat-semi-bold';  
 }
@@ -7,6 +7,9 @@
     margin-top: 3rem;
     position: relative;
 
+}
+.card-container{
+     box-shadow: 1px 0px 10px #918f8f
 }
 
 .order-container{
@@ -19,7 +22,7 @@
     border: 1px solid var(--bg-dark);
     background-color: rgb(252, 252, 252);
     box-shadow: 1px 0px 10px #918f8f;
-    /* height:5rem; */
+    
     max-width: 600px;
     font-size: .8rem;
     margin: 0 auto;

@@ -166,7 +166,7 @@ export default function CartCard({ cartId, user, deleteCartItem, setOrders, orde
           </div>
           <div className="col-12 col-sm-12 col-md-2 py-2 action">
             <Button
-              variant="outline-dark"
+              variant="outline-danger"
               className={isOrdered ? "disabled" : ""}
               onClick={() => deleteCartItem([cartId])}
             >

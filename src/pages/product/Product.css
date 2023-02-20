@@ -1,6 +1,7 @@
 
 .product {
-    min-height: calc(100vh - 56px );   
+    min-height: calc(100vh - 56px ); 
+    min-width: 365px;  
     padding: 3rem 0;
     font-family: 'montserrat-semi-bold';   
 }
@@ -82,13 +83,12 @@
 }
 
 .product .search{
-    background-color: rgba(0, 0, 0, 0) ;
-    border:1px solid white;
-    color: white ;
+    border:1px solid var(--color-primary);
+    color: black ;
 }
 
 .product .search::placeholder{
-    color:white ;
+    color:grey ;
 }
 @media (max-width: 1200px) {
     .product .card {
