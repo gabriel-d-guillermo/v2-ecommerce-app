@@ -9,12 +9,14 @@ import ChangePassword from "../../components/changePassword/ChangePassword";
 
 export default function Account() {
   const { user, setUser } = useContext(UserContext);
-  const [data, setData] = useState([]);
-  const [firstName, setfirstName] = useState("");
-  const [lastName, setlastName] = useState("");
-  const [address, setAddress] = useState("");
-  const [mobileNo, setMobileNo] = useState("");
   const [isActive, setIsActive] = useState(false);
+  const [defaultData, setDefaultData] = useState({});
+  const [profile, setProfile] = useState({
+    firstName: "",
+    lastName: "",
+    address: "",
+    mobileNo: "",
+  });
 
   //user details
   const userDetails = () => {
@@ -28,15 +30,15 @@ export default function Account() {
       .then(res => res.json())
       .then(data => {
         if (data.address === null && data.mobileNo === null) {
-          setData(data);
-          setfirstName(data.firstName);
-          setlastName(data.lastName);
+          data.address = "";
+          data.mobileNo = "";
+          const { firstName, lastName, address, mobileNo } = data;
+          setDefaultData({ firstName, lastName, address, mobileNo });
+          setProfile({ firstName, lastName, address, mobileNo });
         } else {
-          setData(data);
-          setfirstName(data.firstName);
-          setlastName(data.lastName);
-          setAddress(data.address);
-          setMobileNo(data.mobileNo);
+          const { firstName, lastName, address, mobileNo } = data;
+          setDefaultData({ firstName, lastName, address, mobileNo });
+          setProfile({ firstName, lastName, address, mobileNo });
         }
       })
       .catch(error => {
@@ -46,7 +48,13 @@ export default function Account() {
 
   const updateProfile = e => {
     e.preventDefault();
-    if (firstName.trim() === "" || lastName.trim() === "" || address.trim() === "" || mobileNo.trim() === "") {
+
+    if (
+      profile.firstName.trim() === "" ||
+      profile.lastName.trim() === "" ||
+      profile.address.trim() === "" ||
+      profile.mobileNo.trim() === ""
+    ) {
       Swal.fire({
         title: "Warning!!",
         text: "Cannot process an empty field",
@@ -63,10 +71,10 @@ export default function Account() {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
       body: JSON.stringify({
-        firstName: firstName.trim(),
-        lastName: lastName.trim(),
-        address: address.trim(),
-        mobileNo: mobileNo.trim(),
+        firstName: profile.firstName.trim(),
+        lastName: profile.lastName.trim(),
+        address: profile.address.trim(),
+        mobileNo: profile.mobileNo.trim(),
       }),
     })
       .then(res => res.json())
@@ -82,7 +90,7 @@ export default function Account() {
           });
           setUser({
             ...user,
-            address: address,
+            address: profile.address,
           });
           userDetails();
           disableEdit();
@@ -111,15 +119,11 @@ export default function Account() {
     });
 
     setIsActive(false);
-    setfirstName(data.firstName);
-    setlastName(data.lastName);
-    setAddress(data.address);
-    setMobileNo(data.mobileNo);
+    setProfile(defaultData);
   };
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
-
     userDetails();
   }, []);
 
@@ -142,8 +146,8 @@ export default function Account() {
                   size="sm"
                   type="text"
                   className="profile-input text-secondary"
-                  value={firstName}
-                  onChange={e => setfirstName(e.target.value)}
+                  value={profile.firstName}
+                  onChange={e => setProfile({ ...profile, firstName: e.target.value })}
                   required
                   disabled
                   autoComplete="off"
@@ -158,9 +162,9 @@ export default function Account() {
                 <Form.Control
                   size="sm"
                   type="text"
-                  value={lastName}
+                  value={profile.lastName}
                   className="profile-input text-secondary"
-                  onChange={e => setlastName(e.target.value)}
+                  onChange={e => setProfile({ ...profile, lastName: e.target.value })}
                   required
                   disabled
                   autoComplete="off"
@@ -176,8 +180,8 @@ export default function Account() {
                   size="sm"
                   type="Text"
                   className="profile-input text-secondary"
-                  value={address}
-                  onChange={e => setAddress(e.target.value)}
+                  value={profile.address}
+                  onChange={e => setProfile({ ...profile, address: e.target.value })}
                   required
                   disabled={!isActive}
                   autoComplete="off"
@@ -191,10 +195,10 @@ export default function Account() {
               <div className="input-wrapper">
                 <Form.Control
                   size="sm"
-                  type="Text"
+                  type="number"
                   className="profile-input text-secondary"
-                  value={mobileNo}
-                  onChange={e => setMobileNo(e.target.value)}
+                  value={profile.mobileNo}
+                  onChange={e => setProfile({ ...profile, mobileNo: e.target.value })}
                   required
                   disabled
                   autoComplete="off"
@@ -208,12 +212,12 @@ export default function Account() {
                 <Button variant="outline-primary" className="me-1" size="sm" type="submit" id="submitBtn">
                   Save Changes
                 </Button>
-                <Button variant="outline-danger" size="sm" onClick={e => disableEdit()}>
+                <Button variant="outline-danger" size="sm" type="button" onClick={e => disableEdit()}>
                   Cancel
                 </Button>
               </>
             ) : (
-              <Button variant="outline-primary" size="sm" onClick={e => enableEdit()}>
+              <Button variant="outline-primary" type="button" size="sm" onClick={e => enableEdit()}>
                 Edit Profile
               </Button>
             )}
