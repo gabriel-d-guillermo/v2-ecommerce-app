@@ -44,7 +44,6 @@ export default function EditModal({ data }) {
 
   const changePassword = async () => {
     try {
-      console.log("bobo");
       const updatePassword = await fetch(`${process.env.REACT_APP_API_URL}/users/changePassword`, {
         method: "PATCH",
         headers: {
