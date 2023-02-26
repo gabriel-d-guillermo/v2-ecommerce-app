@@ -1,0 +1,42 @@
+.user-details{
+    min-height: calc(100vh - 106px - 56px );  
+    color: rgb(102, 101, 101);
+    font-family: 'montserrat-semi-bold';
+    padding-top: 2rem;
+}
+.user-details .details{
+    margin: 0 auto;
+    border-radius: 5px;
+    background-color: white;  
+}
+.user-details .detail-group{
+    font-size: 0.9rem;
+    padding: 1rem;
+    background-color: var(--color-secondary);
+    color:white;
+    text-transform: capitalize;
+    border-radius: 5px 5px 0 0;
+}
+.user-details span{
+    word-wrap: normal;
+}
+.user-details .user-orders{
+    padding: 1rem;
+}
+
+.user-details .order-details
+ {
+    padding-left: 0;
+}
+.user-details .order-details li{
+    list-style: none;
+    font-size: 0.8rem;
+}
+.user-details hr{
+    border-color: var(--color-primary) !important;
+}
+.user-details .product-list li{
+    padding-left: 1rem;
+    list-style-type: circle;
+  
+}
