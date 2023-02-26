@@ -4,10 +4,8 @@ import { Container } from "react-bootstrap";
 import "./Dashboard.css";
 
 export default function Dashboard() {
-  const [productsCount, setProductsCount] = useState(0);
-  const [userCount, setUserCount] = useState(0);
-  const [archiveProductsCount, setArchiveProductsCount] = useState(0);
-  const [activeProductsCount, setActiveProductsCount] = useState(0);
+  const [products, setProducts] = useState([]);
+  const [user, setUser] = useState([]);
 
   useEffect(() => {
     const getdata = async () => {
@@ -26,21 +24,11 @@ export default function Dashboard() {
         const usersResult = await getUsers.json();
         const productsResult = await getProducts.json();
         if (productsResult !== false && usersResult !== false) {
-          setProductsCount(productsResult.length);
-          setUserCount(usersResult.length);
-          setActiveProductsCount(
-            productsResult.filter(product => {
-              return product.isActive;
-            }).length
-          );
-          setArchiveProductsCount(
-            productsResult.filter(product => {
-              return !product.isActive;
-            }).length
-          );
+          setProducts(productsResult);
+          setUser(usersResult);
         }
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     };
     getdata();
@@ -49,21 +37,35 @@ export default function Dashboard() {
     <Container className="dashboard">
       <ul className="dashboard-list">
         <li>
-          <Link to="/">
-            Total Users <span className="float-end">{userCount}</span>
+          <Link to="/users">
+            Total Users <span className="float-end">{user.length}</span>
           </Link>
         </li>
         <hr />
         <li>
           <Link to="/allProducts">
-            Total Products <span className="float-end">{productsCount}</span>
+            Total Products <span className="float-end">{products.length}</span>
           </Link>
           <ul className="products-list">
             <li>
-              Active Products <span className="float-end">{activeProductsCount}</span>
+              Active Products{" "}
+              <span className="float-end">
+                {
+                  products.filter(product => {
+                    return product.isActive;
+                  }).length
+                }
+              </span>
             </li>
             <li>
-              Archived Products <span className="float-end">{archiveProductsCount}</span>
+              Archived Products{" "}
+              <span className="float-end">
+                {
+                  products.filter(product => {
+                    return !product.isActive;
+                  }).length
+                }
+              </span>
             </li>
           </ul>
         </li>
