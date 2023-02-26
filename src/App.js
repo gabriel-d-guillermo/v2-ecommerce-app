@@ -21,6 +21,8 @@ import Product from "./pages/product/Product";
 import Purchased from "./pages/purchased/Purchased";
 import Register from "./pages/register/Register";
 import ViewProduct from "./pages/viewProduct/ViewProduct";
+import Users from "./pages/users/Users";
+import UserDetails from "./pages/userDetails/UserDetails";
 
 function App() {
   const [user, setUser] = useState({
@@ -48,7 +50,7 @@ function App() {
           setUser({
             id: data._id,
             isAdmin: data.isAdmin,
-            address: data.address,                          
+            address: data.address,
             email: data.email,
           });
           if (!data.isAdmin) {
@@ -61,7 +63,7 @@ function App() {
             address: null,
             email: null,
           });
-        }      
+        }
       } catch (error) {
         console.log(error);
       }
@@ -97,8 +99,10 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/products" element={<Product />} />
         <Route path="/purchased" element={<Purchased />} />
-        <Route path="/register" element={<Register />} />
         <Route path="/product/:id" element={<ViewProduct />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/users" element={<Users />} />
+        <Route path="/users/:userId" element={<UserDetails />} />
       </Routes>
 
       {/* {currentPath !== "/cart" && <Footer />} */}

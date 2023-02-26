@@ -21,3 +21,6 @@
     right: 6px;
 
 }
+.account input[type="text"]{
+    text-transform: capitalize;
+}

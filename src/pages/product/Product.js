@@ -95,14 +95,14 @@ export default function Product() {
           {/* show view more button if the length of products is greater than the viewCount Value */}
           {filterItems.length > viewCount && (
             <div className="text-center my-5">
-              <Button variant="outline-dark" onClick={() => setViewCount(viewCount + 10)}>
+              <Button variant="outline-light" onClick={() => setViewCount(viewCount + 10)}>
                 View More <i className="fa-solid fa-arrow-down"></i> {}
               </Button>
             </div>
           )}
         </>
       ) : (
-        <h2 className="mt-5 text-center text-dark">No Data Available</h2>
+        <h2 className="mt-5 text-center text-white">No Data Available</h2>
       )}
     </Container>
   );

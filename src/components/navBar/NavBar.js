@@ -107,13 +107,23 @@ export default function NavBar() {
                 </>
               ) : (
                 <>
-                  <Nav.Link as={Link} to="/products" onClick={scrollTop}>
+                  <Nav.Link
+                    as={Link}
+                    to="/products"
+                    onClick={scrollTop}
+                    className={pathname === "/products" && "active"}
+                  >
                     Products
                   </Nav.Link>
-                  <Nav.Link as={Link} to="/register" onClick={scrollTop}>
+                  <Nav.Link
+                    as={Link}
+                    to="/register"
+                    onClick={scrollTop}
+                    className={pathname === "/register" && "active"}
+                  >
                     Register
                   </Nav.Link>
-                  <Nav.Link as={Link} to="/login" onClick={scrollTop}>
+                  <Nav.Link as={Link} to="/login" onClick={scrollTop} className={pathname === "/login" && "active"}>
                     Login <i className="fa-solid fa-right-to-bracket"></i>
                   </Nav.Link>
                 </>

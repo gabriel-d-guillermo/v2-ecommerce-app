@@ -14,7 +14,7 @@
 
 .all-product .table-wrapper-header{
     padding: 1.5rem 1rem;   
-    position: relative; 
+    display: flex;
     border-bottom: 1px solid grey;
 }
 .all-product .table-wrapper-header .form-select{
@@ -24,9 +24,7 @@
     width: 12rem !important;
 }
 .all-product .table-wrapper-header .search{
-    position: absolute;
-    right: 1rem;
-    top: 1.5rem;
+    margin-left: auto;
     width: 15rem;
 }
 .all-product .table-wrapper-header .search-icon{
@@ -57,4 +55,18 @@
     font-size: .7rem !important;
     padding: 2px !important;  
     width: 5rem; 
+}
+@media (max-width:500px){
+        
+    .all-product .table-wrapper-header{
+        flex-direction: column;
+    }
+    .all-product .table-wrapper-header .form-select{
+      margin-left: auto;
+      margin-bottom: .5rem;
+    }
+    .all-product .table-wrapper-header .search{
+        
+        width: 100%;
+    }
 }

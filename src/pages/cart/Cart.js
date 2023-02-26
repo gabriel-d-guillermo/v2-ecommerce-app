@@ -11,7 +11,7 @@ export default function Cart() {
   const navigate = useNavigate();
   const { cart, setCart, user } = useContext(UserContext);
   const [orders, setOrders] = useState([]);
-
+  // console.log(orders);
   const updateCartItems = async () => {
     try {
       const cart = await fetch(`${process.env.REACT_APP_API_URL}/cart/${user.id}`, {
@@ -20,6 +20,7 @@ export default function Cart() {
         },
       });
       const data = await cart.json();
+
       setCart(data);
     } catch (error) {
       console.log(error);
@@ -117,11 +118,12 @@ export default function Cart() {
               <CartCard
                 key={items._id}
                 cartId={items._id}
-                user={user.id}
+                userId={user.id}
                 deleteCartItem={deleteCartItem}
                 setOrders={setOrders}
                 orders={orders}
                 updateCartItems={updateCartItems}
+                setCart={setCart}
               />
             );
           })}

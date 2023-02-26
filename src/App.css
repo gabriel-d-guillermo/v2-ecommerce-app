@@ -1,7 +1,8 @@
 :root{
 
-    --color-primary:hsl(200, 25%, 21%);
-    --color-secondary:hsl(202, 15%, 40%);
+    /* --color-primary:hsl(200, 25%, 21%); */
+    --color-primary:rgb(30, 65, 77);
+    --color-secondary:rgb(34, 81, 98);
    
     --bg-img:url('./asset/images/backgroundImg.jpg');
 }
@@ -87,7 +88,7 @@ footer{
     color: var(--color-primary) !important;
 }
 .swal2-popup.swal2-toast .swal2-title{
-    color: whitesmoke !important;
+    /* color: whitesmoke !important; */
 }
 .swal2-title{
     font-size: 1.3rem !important;

@@ -3,7 +3,7 @@ import { Button } from "react-bootstrap";
 
 import "./CartCard.css";
 
-export default function CartCard({ cartId, user, deleteCartItem, setOrders, orders, updateCartItems }) {
+export default function CartCard({ setCart, cartId, userId, deleteCartItem, setOrders, orders, updateCartItems }) {
   const [product, setProduct] = useState({});
   const [quantity, setQuantity] = useState(0);
   const [price, setPrice] = useState(0);
@@ -103,33 +103,63 @@ export default function CartCard({ cartId, user, deleteCartItem, setOrders, orde
   useEffect(() => {
     const getProduct = async () => {
       try {
-        const fetchdata = await fetch(`${process.env.REACT_APP_API_URL}/cart/${user.id}/${cartId}`, {
+        const fetchdata = await fetch(`${process.env.REACT_APP_API_URL}/cart/${userId}/${cartId}`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         });
+
         const result = await fetchdata.json();
         setProduct(result.data);
         setQuantity(result.data.quantity);
         setPrice(result.data.price);
         setItemLeft(result.productLeft);
-        setIsOrdered(result.data.isOrdered);
+
+        if (result.productLeft < 1 && result.data.isOrdered === true) {
+          const remove = await fetch(`${process.env.REACT_APP_API_URL}/cart/update/${cartId}`, {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+            body: JSON.stringify({
+              isOrdered: false,
+            }),
+          });
+
+          const res2 = await remove.json();
+          if (res2 !== null) {
+            setIsOrdered(false);
+
+            //update current cart data
+            const cart = await fetch(`${process.env.REACT_APP_API_URL}/cart/${userId}`, {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+              },
+            });
+            const data = await cart.json();
+            setCart(data);
+          }
+        } else {
+          setIsOrdered(result.data.isOrdered);
+        }
       } catch (error) {
         console.log(error);
       }
     };
     getProduct();
-  }, [user.id, cartId]);
+  }, [userId, cartId, setCart]);
 
   return (
     <div className="cart-card ">
       <div className="cart-card-header">
-        {isOrdered ? (
+        {itemLeft < 1 ? (
+          <span className="text-danger">Product Is Currently Not Available</span>
+        ) : isOrdered ? (
           <input type="checkbox" className="check-box" onClick={addToPlaceOrder} defaultChecked={true} />
         ) : (
           <input type="checkbox" className="check-box" onClick={addToPlaceOrder} />
         )}
-
         <span className=" item-remain">Remaining items: ( {itemLeft} )</span>
       </div>
       <div className="cart-card-body ">

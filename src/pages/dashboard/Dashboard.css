@@ -1,5 +1,5 @@
 .dashboard{
-    min-height: calc(100vh - 106px );  
+    min-height: calc(100vh - 170px);  
     color: rgb(102, 101, 101);
     font-family: 'montserrat-semi-bold'; 
 }
@@ -9,7 +9,7 @@
     padding: 2rem 2.5rem;
     background-color: white;
     /* background-color: rgb(32, 32, 32);  */
-    background-color:rgb(40, 58, 68,.6);
+    background-color:var(--color-secondary);
     border-radius:5px;
 }
 .dashboard .dashboard-list li{

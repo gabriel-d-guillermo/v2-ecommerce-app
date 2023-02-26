@@ -4,10 +4,7 @@ export default function Footer() {
   const currentYear = date.getFullYear();
 
   return (
-    <footer className="py-4 w-100 ">
-      {/* <h3 align="center " className="text-light">
-        Contact Us!
-      </h3> */}
+    <footer className="py-4 w-100 mt-5 ">
       <div className=" d-flex flex-wrap justify-content-center">
         <p className="mx-2 my-1">
           <i className="fa-brands fa-square-facebook text-light"></i>&nbsp;

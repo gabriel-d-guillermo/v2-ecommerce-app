@@ -265,22 +265,26 @@ export default function AllProducts() {
     }
   };
 
-  // if (loading) {
-  //   return <Loading />;
-  // }
+  if (loading) {
+    return (
+      <Container className="all-product">
+        <Loading />
+      </Container>
+    );
+  }
 
-  // if (products.length === 0) {
-  //   return (
-  //     <Container className="all-product">
-  //       <h3 className="text-center text-white">No Data Avialable!</h3>
-  //     </Container>
-  //   );
-  // }
+  if (products.length === 0) {
+    return (
+      <Container className="all-product">
+        <h3 className="text-center text-white">No Data Avialable!</h3>
+      </Container>
+    );
+  }
 
   return (
     <Container fluid="lg" className="all-product ">
       {loading && <Loading />}
-      <Button className="btn  mb-4" size="sm" onClick={e => handleModalShow(data)}>
+      <Button variant="success" className=" mb-4" size="sm" onClick={e => handleModalShow(data)}>
         Add New Product
       </Button>
       <div className="table-wrapper">
@@ -290,7 +294,6 @@ export default function AllProducts() {
             <input
               ref={searchTerm}
               type="search"
-              // onChange={e => setSearch(e.target.value)}
               onChange={searchProduct}
               className="form-control form-control-sm"
               placeholder="Search . . ."

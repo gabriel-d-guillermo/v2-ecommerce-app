@@ -157,11 +157,10 @@ export default function ViewProduct() {
                       <Button type="submit" variant="outline-dark my-3" className="form-control">
                         Add to Cart
                       </Button>
-                      {/* <button className="form-control"></button> */}
                     </div>
                   </div>
                 ) : (
-                  <p className="text-danger fs-4 mt-5 text-center">This Product Currently Not Available</p>
+                  <p className="text-danger fs-4 mt-5 text-center">This Product Is Currently Not Available</p>
                 )}
               </form>
             </Col>

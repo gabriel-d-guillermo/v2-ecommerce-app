@@ -51,7 +51,7 @@ export default function Purchased() {
           })}
         </div>
       ) : (
-        <h2 className="text-dark text-center"> No purchased yet! </h2>
+        <h2 className="text-white text-center"> No purchased yet! </h2>
       )}
     </Container>
   ) : (

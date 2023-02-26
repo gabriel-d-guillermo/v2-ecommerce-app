@@ -6,7 +6,7 @@
 }
 .cart-card-header{
     background-color: rgb(252, 252, 252);
-    /* padding: .2rem; */
+    min-height: 3rem;
     padding-top: .3rem;
     padding-left: .5rem;
 }
@@ -46,8 +46,7 @@
 .cart-card .product-details .button-group{
     display: inline-block;
     margin-left: .5rem;
-    max-width: 95px !important;
-    max-height: 22px !important;
+
     /* border: 1px solid black; */
 }
 .button-group button{
