@@ -47,27 +47,6 @@ export default function Banner() {
               </div>
             </div>
           </div>
-          {/* <ul>
-            <li>User registration</li>
-            <li>User authentication</li>
-            <li>Create Product (Admin only)</li>
-            <li>Retrieve all active products</li>
-            <li>Retrieve single product</li>
-            <li>Update Product information (Admin only)</li>
-            <li>Archive Product (Admin only)</li>
-            <li>Non-admin User checkout (Create Order)</li>
-            <li>Retrieve User Details</li>
-            <li>
-              Add to Cart
-              <ul>
-                <li> Added Products</li>
-                <li>Change product quantities</li>
-                <li>Remove products from cart</li>
-                <li>Subtotal for each item</li>
-                <li>Total price for all items</li>
-              </ul>
-            </li>
-          </ul> */}
         </div>
       </div>
     </Container>
