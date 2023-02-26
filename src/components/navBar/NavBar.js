@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useContext, useRef, useState } from "react";
 import UserContext from "../../UserContext";
 
@@ -7,6 +7,9 @@ import { Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
 import "./NavBar.css";
 
 export default function NavBar() {
+  const location = useLocation();
+  const pathname = location.pathname;
+
   const { user, cart } = useContext(UserContext);
   const topRef = useRef();
   const [height, setHeight] = useState(false);
@@ -26,20 +29,40 @@ export default function NavBar() {
             <Nav className="ms-auto">
               {user.id !== null && user.isAdmin === false ? (
                 <>
-                  <Nav.Link as={Link} to="/products" onClick={scrollTop}>
+                  <Nav.Link
+                    as={Link}
+                    to="/products"
+                    onClick={scrollTop}
+                    className={pathname === "/products" && "active"}
+                  >
                     Products
                   </Nav.Link>
-                  <Nav.Link className="my-cart" as={Link} to="/cart" onClick={scrollTop}>
+                  <Nav.Link
+                    className={`my-cart ${pathname === "/cart" && "active"}`}
+                    as={Link}
+                    to="/cart"
+                    onClick={scrollTop}
+                  >
                     Cart
                     <div className="cart-count">{cart.length}</div>
                   </Nav.Link>
-                  <Nav.Link as={Link} to="/purchased" onClick={scrollTop}>
+                  <Nav.Link
+                    as={Link}
+                    to="/purchased"
+                    onClick={scrollTop}
+                    className={pathname === "/purchased" && "active"}
+                  >
                     My Purchase
                   </Nav.Link>
-                  <NavDropdown title={user.email} id="nav-dropdown" align="end">
+                  <NavDropdown
+                    title={user.email}
+                    id="nav-dropdown"
+                    align="end"
+                    className={pathname === "/account" && "active"}
+                  >
                     {/* <NavDropdown.                                                                                                                                                                                             Divider /> */}
                     <NavDropdown.Item as={Link} to="/account" onClick={scrollTop}>
-                      Account
+                      My Account
                     </NavDropdown.Item>
 
                     <NavDropdown.Item as={Link} to="/logout" onClick={scrollTop}>
@@ -49,16 +72,31 @@ export default function NavBar() {
                 </>
               ) : user.id !== null && user.isAdmin === true ? (
                 <>
-                  <Nav.Link as={Link} to="/dashboard" onClick={scrollTop}>
+                  <Nav.Link
+                    as={Link}
+                    to="/dashboard"
+                    className={pathname === "/dashboard" && "active"}
+                    onClick={scrollTop}
+                  >
                     Dashboard
                   </Nav.Link>
-                  <Nav.Link as={Link} to="/allProducts" onClick={scrollTop}>
+                  <Nav.Link
+                    as={Link}
+                    to="/allProducts"
+                    onClick={scrollTop}
+                    className={pathname === "/allProducts" && "active"}
+                  >
                     All Products
                   </Nav.Link>
-                  <Nav.Link as={Link} to="/users" onClick={scrollTop}>
+                  <Nav.Link as={Link} to="/users" onClick={scrollTop} className={pathname === "/users" && "active"}>
                     Users
                   </Nav.Link>
-                  <NavDropdown title={user.email} id="nav-dropdown" align="end">
+                  <NavDropdown
+                    title={user.email}
+                    id="nav-dropdown"
+                    align="end"
+                    className={pathname === "/account" && "active"}
+                  >
                     <NavDropdown.Item as={Link} to="/account" onClick={scrollTop}>
                       My Account
                     </NavDropdown.Item>

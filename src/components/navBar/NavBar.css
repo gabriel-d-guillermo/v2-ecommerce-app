@@ -1,11 +1,9 @@
 nav {
     font-family: 'montserrat-semi-bold';
     background-color: var(--color-primary);
-    /* background-color: whitesmoke; */
-    /* background: linear-gradient(to left, rgb(202, 202, 204), rgb(67, 102, 98)); */
- 
-    
+    box-shadow: 0px 2px 10px rgb(163, 163, 163);   
 }
+
 .spacer{
     height: 56px;
     transition: height 0.3s ease-in-out;
@@ -45,6 +43,11 @@ background-color: var(--color-primary);
     padding: 0 .2rem;
     
 }
+
+ .active{
+    color:white !important;
+}
+
 @media (min-width: 767px){
     .show-spacer {
         height: 56px;
