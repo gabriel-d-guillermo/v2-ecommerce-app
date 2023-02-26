@@ -1,0 +1,34 @@
+.users{
+    min-height: calc(100vh - 106px - 56px );  
+    color: rgb(102, 101, 101);
+    font-family: 'montserrat-semi-bold';
+}
+
+.users .table-wrapper{
+    border-radius: 5px;
+}
+.users .table-wrapper-header{
+    padding: 1rem 0.5rem ;
+    border-bottom: 1px solid  rgb(136, 132, 132);
+}
+.users .table-wrapper-header input{
+    width: 300px;
+    margin-left: auto ;
+    color: rgb(102, 101, 101);
+}
+.users .table-wrapper-body{
+    overflow-x: auto;
+    min-width:352px ;
+    padding: .5rem;
+}
+
+.users .table thead {
+    white-space: nowrap;
+    font-size: 0.9rem;
+}
+.users tbody td{
+    font-size: 0.8rem;
+}
+.users .last-name, .users .first-name{
+    text-transform: capitalize;
+}
