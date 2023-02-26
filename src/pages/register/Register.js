@@ -125,85 +125,77 @@ export default function Register() {
   }, []);
 
   return (
-    <>
-      <Container fluid className=" background-container pt-2 ">
-        <Card className="register mx-auto mt-3 border pt-3 border-dark" style={{ maxWidth: "30rem", fontSize: "14px" }}>
-          <Card.Body className="p-0">
-            <Card.Title className="text-center fw-bold">Register</Card.Title>
+    <Container fluid className=" background-container pt-2 ">
+      <Card className="register mx-auto mt-3 border pt-3 border-dark" style={{ maxWidth: "30rem", fontSize: "14px" }}>
+        <Card.Body className="p-0">
+          <Card.Title className="text-center fw-bold">Register</Card.Title>
 
-            <Form className=" px-4 py-2 " onSubmit={handleForm}>
-              <Form.Group className="mb-3" controlId="firstName">
-                <Form.Label className="mb-1">First name</Form.Label>
-                <Form.Control
-                  size="sm"
-                  ref={firstNameRef}
-                  type="text"
-                  placeholder="Enter first name"
-                  autoComplete="off"
-                />
-                {formError.firstName && <span className="error">{formError.firstName}</span>}
-              </Form.Group>
+          <Form className=" px-4 py-2 " onSubmit={handleForm}>
+            <Form.Group className="mb-3" controlId="firstName">
+              <Form.Label className="mb-1">First name</Form.Label>
+              <Form.Control
+                size="sm"
+                ref={firstNameRef}
+                type="text"
+                placeholder="Enter first name"
+                autoComplete="off"
+              />
+              {formError.firstName && <span className="error">{formError.firstName}</span>}
+            </Form.Group>
 
-              <Form.Group className="mb-3" controlId="lastName">
-                <Form.Label className="mb-1">Last name</Form.Label>
-                <Form.Control
-                  size="sm"
-                  ref={lastNameRef}
-                  type="text"
-                  placeholder="Enter first name"
-                  autoComplete="off"
-                />
-                {formError.lastName && <span className="error">{formError.lastName}</span>}
-              </Form.Group>
+            <Form.Group className="mb-3" controlId="lastName">
+              <Form.Label className="mb-1">Last name</Form.Label>
+              <Form.Control size="sm" ref={lastNameRef} type="text" placeholder="Enter first name" autoComplete="off" />
+              {formError.lastName && <span className="error">{formError.lastName}</span>}
+            </Form.Group>
 
-              <Form.Group className="mb-3" controlId="email">
-                <Form.Label className="mb-1">Email address</Form.Label>
-                <Form.Control size="sm" ref={emailRef} type="email" placeholder="Enter email" autoComplete="off" />
-                {formError.email && <span className="error">{formError.email}</span>}
-              </Form.Group>
+            <Form.Group className="mb-3" controlId="email">
+              <Form.Label className="mb-1">Email address</Form.Label>
+              <Form.Control size="sm" ref={emailRef} type="email" placeholder="Enter email" autoComplete="off" />
+              {formError.email && <span className="error">{formError.email}</span>}
+            </Form.Group>
 
-              <Form.Group className="mb-3" controlId="password">
-                <Form.Label className="mb-1">Password</Form.Label>
-                <Form.Control
-                  size="sm"
-                  ref={passwordRef}
-                  type={!showPassword ? "password" : "text"}
-                  placeholder="Password"
-                  autoComplete="off"
-                />
-                {formError.password && <span className="error">{formError.password}</span>}
-              </Form.Group>
-              <Form.Group className="mb-1 " controlId="confirmPassword">
-                <Form.Label className="mb-1">Confirm Password</Form.Label>
-                <Form.Control
-                  size="sm"
-                  ref={confirmPasswordRef}
-                  type={!showPassword ? "password" : "text"}
-                  placeholder="Confirm password"
-                  autoComplete="off"
-                />
-                {formError.confirmPassword && <span className="error">{formError.confirmPassword}</span>}
-              </Form.Group>
+            <Form.Group className="mb-3" controlId="password">
+              <Form.Label className="mb-1">Password</Form.Label>
+              <Form.Control
+                size="sm"
+                ref={passwordRef}
+                type={!showPassword ? "password" : "text"}
+                placeholder="Password"
+                autoComplete="off"
+              />
+              {formError.password && <span className="error">{formError.password}</span>}
+            </Form.Group>
+            <Form.Group className="mb-1 " controlId="confirmPassword">
+              <Form.Label className="mb-1">Confirm Password</Form.Label>
+              <Form.Control
+                size="sm"
+                ref={confirmPasswordRef}
+                type={!showPassword ? "password" : "text"}
+                placeholder="Confirm password"
+                autoComplete="off"
+              />
+              {formError.confirmPassword && <span className="error">{formError.confirmPassword}</span>}
+            </Form.Group>
 
-              <Form.Group className="" controlId="checkbox">
-                <Form.Check type="checkbox" onClick={() => setShowPassword(!showPassword)} label="Show password" />
-              </Form.Group>
-              <Button variant="outline-dark" className="btn btn-sm mx-auto d-block w-75 my-3 fw-bold" type="submit">
-                Submit
-              </Button>
-            </Form>
-          </Card.Body>
-          <hr variant="dark" className="m-0 " />
-          <p className="text-center m-0" style={{ fontSize: "12px" }}>
-            Already have an account?
-            <button type="button" className="btn btn-link  btn-sm " onClick={() => navigate("/login")}>
-              Click here
-            </button>
-            to login
-          </p>
-        </Card>
-      </Container>
-    </>
+            <Form.Group className="" controlId="checkbox">
+              <Form.Check type="checkbox" onClick={() => setShowPassword(!showPassword)} label="Show password" />
+            </Form.Group>
+            <Button variant="outline-dark" className="btn btn-sm mx-auto d-block w-75 my-3 fw-bold" type="submit">
+              Submit
+            </Button>
+          </Form>
+        </Card.Body>
+        <hr variant="dark" className="m-0 " />
+        <p className="text-center m-0" style={{ fontSize: "12px" }}>
+          Already have an account?
+          <button type="button" className="btn btn-link  btn-sm " onClick={() => navigate("/login")}>
+            Click here
+          </button>
+          to login
+        </p>
+      </Card>
+    </Container>
   );
 }
 
@@ -212,7 +204,7 @@ function alertPopUP(status) {
     return Swal.fire({
       position: "top",
       icon: "success",
-      title: "register success!!",
+      text: "Register Successfully!!",
       showConfirmButton: false,
       timer: 2000,
       toast: true,
