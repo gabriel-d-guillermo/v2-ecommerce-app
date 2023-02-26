@@ -1,15 +1,62 @@
 .banner {
     color: white;
-    font-family: 'montserrat-regular';
-    max-width: 600px;
-    background-color: rgba(0, 0, 0, 0.8);
+    color: var(--color-primary);
+    font-family: 'montserrat-semi-bold';
+    max-width: 650px;
+ 
 }
-
-.banner h2 {
-    /* font-size: 3rem; */
+.banner .title{
+    background-color:var(--color-secondary);
+    padding:1rem;
+    margin-bottom:.3rem;
+    border-radius: 5px;
+    color: white;
+}
+.banner .mvp-header{
+    padding: 1rem 0;
+}   
+.banner h3{
+   
     text-align: center;
+    
 }
 
 .banner ul {
     font-size: 14px;
+}
+.banner .mvp-wrapper{
+    width: 100%;
+    border-radius: 5px;
+    padding: 0  1rem 1rem 1rem ;
+    background-color:var(--color-secondary);
+    color: white;
+}
+.banner .mvp-body{
+    display: flex;
+    gap: .3rem;
+    border-radius:0 0 5px 5px;
+    /* background-color: white; */
+   
+}
+.banner .mvp-body div{
+    border: 1px solid white;
+    /* color: white; */
+    border-radius:5px;
+    width: 100%;
+    padding: 1rem;
+    background-color: var(--color-primary);
+}
+
+.banner .mvp-wrapper h5,h6{
+    font-size: 1rem;
+    font-family: 'montserrat-semi-bold' !important;
+}
+.banner .mvp-wrapper li{
+    font-family: 'montserrat-regular'; 
+}
+   
+@media (max-width:767px){
+    .banner .mvp-body{
+        flex-direction: column;
+    }
 }
