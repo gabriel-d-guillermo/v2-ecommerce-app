@@ -28,8 +28,6 @@ export default function UserDetails() {
         });
         const data = await fetchUserData.json();
         const orders = await fetchUserOrders.json();
-        if (data.address === null) data.address = "N/A";
-        if (data.mobileNo === null) data.mobileNo = "N/A";
         setUserOrders(orders);
         setUserDetails({ ...data });
         setLoading(false);
